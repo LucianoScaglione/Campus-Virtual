@@ -22,7 +22,22 @@ let entries = Object.entries(sequelize.models);
 let capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].slice(1), entry[1]]);
 sequelize.models = Object.fromEntries(capsEntries);
 
-const { } = sequelize.models;
+const { Users, CurriculumUnit, Publications, Comments } = sequelize.models;
+
+Users.belongsToMany(CurriculumUnit, { through: 'UserCurriculumUnit', foreignKey: 'UserId' });
+CurriculumUnit.belongsToMany(Users, { through: 'UserCurriculumUnit', foreignKey: 'CurriculumUnitId' });
+
+CurriculumUnit.hasMany(Publications, { foreignKey: 'CurriculumUnitId' });
+Publications.belongsTo(CurriculumUnit);
+
+Users.hasMany(Publications, { foreignKey: 'UserId' });
+Publications.belongsTo(Users);
+
+Publications.hasMany(Comments, { foreignKey: 'PublicationId' });
+Comments.belongsTo(Publications);
+
+Users.hasMany(Comments, { foreignKey: 'UserId' });
+Comments.belongsTo(Users);
 
 module.exports = {
   ...sequelize.models,
