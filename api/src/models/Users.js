@@ -26,7 +26,7 @@ module.exports = (sequelize) => {
       type: DataTypes.DATE,
       allowNull: false
     },
-    emnail: {
+    email: {
       type: DataTypes.STRING,
       allowNull: false
     },
