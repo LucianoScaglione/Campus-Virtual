@@ -3,6 +3,8 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
+const UsersRouters = require('./routes/Users.js');
+
 require('./db.js');
 
 const server = express();
@@ -27,5 +29,7 @@ server.use((err, req, res, next) => {
   console.error(err);
   res.status(status).send(message);
 });
+
+server.use('/users', UsersRouters);
 
 module.exports = server;
