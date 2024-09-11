@@ -48,9 +48,9 @@ const getUser = async (req, res, next) => {
 
 const createUser = async (req, res, next) => {
   try {
-    const { dni, name, lastName, profilePicture, dateOfBirth, email, address, phone, ranks, password } = req.body;
+    const { dni, name, lastName, profilePicture, dateOfBirth, address, phone, ranks, password } = req.body;
 
-    if (!(dni && name && lastName && dateOfBirth && email && ranks && password)) {
+    if (!(dni && name && lastName && dateOfBirth && password)) {
       return res.status(400).send('You must fill out the required fields');
     };
 
@@ -68,14 +68,46 @@ const createUser = async (req, res, next) => {
       lastName,
       profilePicture,
       dateOfBirth,
-      email,
+      email: `${dni}@gmail.com`,
       address,
       phone,
-      ranks: ranks || 'Student',
+      ranks: ranks ? ranks : 'Student',
       password: encryptedPassword
     });
 
     res.status(201).json({ msg: 'User created successfully', user: createUser });
+
+  } catch (error) {
+    next(error);
+  };
+};
+
+const updateUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { dni, name, lastName, profilePicture, dateOfBirth, email, address, phone, ranks, password, userActive } = req.body;
+
+    const findUser = await Users.findByPk(id);
+
+    if (!findUser) {
+      return res.status(400).send('There is no registered user with that id');
+    };
+
+    const updateUser = await findUser.update({
+      dni: dni ? dni : findUser.dni,
+      name: name ? name : findUser.name,
+      lastName: lastName ? lastName : findUser.lastName,
+      profilePicture: profilePicture ? profilePicture : findUser.profilePicture,
+      dateOfBirth: dateOfBirth ? dateOfBirth : findUser.dateOfBirth,
+      email: email ? email : findUser.email,
+      address: address ? address : findUser.address,
+      phone: phone ? phone : findUser.phone,
+      ranks: ranks ? ranks : findUser.ranks,
+      password: password ? password : findUser.password,
+      userActive: userActive !== undefined ? userActive : findUser.userActive
+    });
+
+    res.status(200).json({ msg: 'User updated succesfully!', user: updateUser });
 
   } catch (error) {
     next(error);
@@ -104,5 +136,6 @@ module.exports = {
   getUsers,
   getUser,
   createUser,
+  updateUser,
   deleteUser
 };
