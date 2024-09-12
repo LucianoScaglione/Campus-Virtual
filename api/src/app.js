@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
 const UsersRouters = require('./routes/Users.js');
+const CurriculumUnitRouters = require('./routes/CurriculumUnit.js');
 
 require('./db.js');
 
@@ -31,5 +32,6 @@ server.use((err, req, res, next) => {
 });
 
 server.use('/users', UsersRouters);
+server.use('/curriculumunit', CurriculumUnitRouters);
 
 module.exports = server;
