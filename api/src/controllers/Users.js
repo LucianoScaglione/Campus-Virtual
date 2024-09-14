@@ -1,6 +1,7 @@
 const { Users } = require('../db');
 const bcrypt = require('bcrypt');
 const { Op } = require('sequelize');
+const jwt = require('jsonwebtoken');
 
 const getUsers = async (req, res, next) => {
   try {
@@ -82,6 +83,32 @@ const createUser = async (req, res, next) => {
   };
 };
 
+const loginUser = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!(email && password)) {
+      return res.status(400).send('You must complete the required email and password fields');
+    };
+
+    const user = await Users.findOne({ where: { email } });
+
+    if (!user) {
+      return res.status(400).send('No registered user was found with that email');
+    };
+
+    if (await bcrypt.compare(password, user.password)) {
+      const token = jwt.sign({ user_id: user.id, user_email: email }, "secret", { expiresIn: "10h" });
+      user.token = token;
+      res.status(200).json({ "user": user, "token": token });
+    } else {
+      return res.status(400).send('Incorrect password');
+    };
+  } catch (error) {
+    next(error);
+  };
+};
+
 const updateUser = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -136,6 +163,7 @@ module.exports = {
   getUsers,
   getUser,
   createUser,
+  loginUser,
   updateUser,
   deleteUser
 };
