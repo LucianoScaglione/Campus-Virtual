@@ -28,6 +28,10 @@ span {
 
     display: flex;
     overflow: hidden;
+
+    -webkit-box-shadow: 0px 9px 24px -14px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 9px 24px -14px rgba(0,0,0,0.75);
+    box-shadow: 0px 9px 24px -14px rgba(0,0,0,0.75);
 }
 
 .MenuOption{

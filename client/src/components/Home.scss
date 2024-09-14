@@ -17,7 +17,7 @@ $font-blackcolor: #313638;
     overflow-x: hidden;
     display: flex;
     justify-content: center;
-    width: 100vw;
+    width: 98vw;
     scrollbar-gutter: stable both-edges;
     gap: 2%
 }
@@ -33,7 +33,7 @@ span {
 }
 
 //last updates
-.CurrUnitContent{
+.CurrUnitViewerContent{
     width: 70vw;
     height: 100%;
     background-color: $background-secondarycolor;
@@ -60,7 +60,7 @@ span {
     filter: brightness(75%);
 }
 
-.CurrUnitHeader{
+.CurrUnitViewerHeader{
     height: 10vh;
     width: 100%;
     background-color: #00000036 ;
@@ -79,6 +79,7 @@ span {
     justify-content: start;
     padding-left: 3.5vw;
     color: $font-defaultcolor;
+    margin-bottom: 0.5%;
 }
 
 .CurrUnitInfo{

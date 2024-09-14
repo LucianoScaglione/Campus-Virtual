@@ -10,11 +10,14 @@ const App = () => {
     <div>
 
       <Header/>
-      <div style={{height: "8.5vh"}}></div>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/curriculumUnit/:id" element={<DetailSubjects />} />
-      </Routes>
+
+      <div style={{marginTop: "12vh"}}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/curriculumUnit/:id" element={<DetailSubjects />} />
+        </Routes>
+      </div>
+
     </div>
   );
 };

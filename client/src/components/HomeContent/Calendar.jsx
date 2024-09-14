@@ -7,7 +7,7 @@ function CalendarUpdates() {
 
   return (
     <div className="calendarupdates">
-      <div className='CurrUnitHeader'>
+      <div className='CurrUnitViewerHeader'>
         <h2>Calendario</h2>
       </div>
       <div className='calendar'>

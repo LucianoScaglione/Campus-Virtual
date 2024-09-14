@@ -19,9 +19,9 @@ function LastUpdates() {
   
 
   return (
-    <div className="CurrUnitContent">
+    <div className="CurrUnitViewerContent">
       
-      <div className='CurrUnitHeader'>
+      <div className='CurrUnitViewerHeader'>
         <h2><b>Unidades Curriculares</b></h2>
       </div>
 
@@ -29,7 +29,7 @@ function LastUpdates() {
         return (
           <Link to={`/curriculumUnit/${value.id}`}>
             <div className='CurrUnitCard' key={value.id}>
-              <div className='CurrUnitTitle'><h2>{value.name}</h2></div>
+              <h2 className='CurrUnitTitle'>{value.name}</h2>
               <div className='CurrUnitInfo'>
 
                     <span><b>Profesor asignado: </b>{value.assignedTeacher}</span>

@@ -17,11 +17,12 @@ $font-blackcolor: #313638;
 
 
 ::-webkit-scrollbar {
-    background-color: rgba(0, 0, 0, 0.205);
+    -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */ display: none;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.212); 
+    border: 3px solid #0000004b;
     border-radius: 10px;
 }
 
