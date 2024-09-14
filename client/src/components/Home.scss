@@ -1,0 +1,76 @@
+@import '@fontsource/roboto/300.css';
+@import '@fontsource/roboto/400.css';
+@import '@fontsource/roboto/500.css';
+@import '@fontsource/roboto/700.css';
+
+
+$background-tertiarycolor: #229799; 
+$background-secondarycolor: #48CFCB; 
+$background-defaultcolor: #424242;
+$header-backgroundcolor: #F5F5F5;
+
+$font-defaultcolor: #FFF5EA;
+$font-secondarycolor: #888;
+$font-blackcolor: #313638;
+
+//front
+.frontpage{
+    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    scrollbar-gutter: stable both-edges;
+    padding: 6% 0 2% 0;
+    gap: 2%
+}
+
+hr {
+    width: 95%;
+    opacity: 50%;
+}
+
+span {
+    font-size: smaller;
+    padding-left: 2%;
+}
+
+//last updates
+.lastupdates{
+    width: 100%;
+    background-color: $background-secondarycolor;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: row;
+    gap: 1vw;
+}
+
+
+
+//calendar updates
+.calendarupdates{
+    width: 29%;
+    height: 50%;
+    background-color: $background-secondarycolor;
+    overflow-x: hidden;
+}
+
+.calendar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-top: 2% ;
+}
+
+.rcalendar {
+    color: black;
+}
+
+.rcalendar > div > button {
+    color:black;
+}
+
+.rcalendar > div > div > div > div > div > button {
+    color:black
+}

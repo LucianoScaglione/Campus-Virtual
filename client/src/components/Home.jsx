@@ -3,6 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCurriculumUnit } from '../redux/actions';
 import { Link } from 'react-router-dom';
 
+import React from 'react'
+import './Home.scss'
+
+import LastUpdates from './HomeContent/LastUpdates'
+
 const Home = () => {
   const dispatch = useDispatch();
   const curriculumUnit = useSelector(state => state.curriculumUnit);
@@ -12,7 +17,7 @@ const Home = () => {
   }, [dispatch, curriculumUnit.length])
   return (
     <div>
-      {
+      {/*
         curriculumUnit.length ? curriculumUnit.map(c => {
           return (
             <div key={c.id}>
@@ -23,7 +28,10 @@ const Home = () => {
             </div>
           );
         }) : <h4>There are no registered curriculum unit</h4>
-      }
+      */}
+
+    <LastUpdates/>
+
     </div>
   )
 };
