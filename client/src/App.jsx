@@ -1,28 +1,44 @@
-import { Route, Routes } from 'react-router';
+import { Route, Routes, Outlet } from 'react-router';
 import Home from './components/Home';
 import DetailSubjects from './components/DetailSubjects';
-import './App.scss'
+import './App.scss';
 import Header from './components/Header/Header';
 import Login from './Login';
 import PrivatesRoutes from './components/PrivatesRoutes';
+import SubjectNews from './components/SubjectContent/SubjectNews';
+import SubjectMembers from './components/SubjectContent/SubjectMembers';
+import SubjectWorklist from './components/SubjectContent/SubjectWorklist';
 
 const App = () => {
 
+  const HeaderWrapper = () => {
+    return (
+      <div>
+        <Header />
+        <div style={{ marginTop: "12vh" }}>
+          <Outlet />
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div>
-
-      <Header />
-
-      <div style={{ marginTop: "12vh" }}>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route element={<PrivatesRoutes />}>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route element={<PrivatesRoutes />}>
+          <Route element={<HeaderWrapper />}>
             <Route path="/" element={<Home />} />
             <Route path="/curriculumUnit/:id" element={<DetailSubjects />} />
+            <Route path="/" element={<Home />} />
+            <Route element={<DetailSubjects />} >
+              <Route path={"/curriculumUnit/:id/news"} element={<SubjectNews />} />
+              <Route path={"/curriculumUnit/:id/work"} element={<SubjectWorklist />} />
+              <Route path={"/curriculumUnit/:id/members"} element={<SubjectMembers />} />
+            </Route>
           </Route>
-        </Routes>
-      </div>
-
+        </Route>
+      </Routes>
     </div>
   );
 };
