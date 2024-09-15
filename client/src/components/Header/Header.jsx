@@ -13,12 +13,13 @@ function Header() {
   return (
     <div className="header">
       <div className='header-left'>
-        <Sidebar/>
+        <Sidebar />
         <Link to={`/`}><Button className='Button' variant="text" ><h2>CAMPUS VIRTUAL</h2></Button></Link>
       </div>
 
       <div className='header-right'>
-        <Usermenu/>
+        <button onClick={() => { localStorage.removeItem("user"); window.location.reload(); }}>Cerrar sesión</button>
+        <Usermenu />
         <Button variant="text">Place Holder</Button>
       </div>
 

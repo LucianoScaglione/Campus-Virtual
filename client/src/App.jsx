@@ -3,18 +3,23 @@ import Home from './components/Home';
 import DetailSubjects from './components/DetailSubjects';
 import './App.scss'
 import Header from './components/Header/Header';
+import Login from './Login';
+import PrivatesRoutes from './components/PrivatesRoutes';
 
 const App = () => {
 
   return (
     <div>
 
-      <Header/>
+      <Header />
 
-      <div style={{marginTop: "12vh"}}>
+      <div style={{ marginTop: "12vh" }}>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/curriculumUnit/:id" element={<DetailSubjects />} />
+          <Route path="/login" element={<Login />} />
+          <Route element={<PrivatesRoutes />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/curriculumUnit/:id" element={<DetailSubjects />} />
+          </Route>
         </Routes>
       </div>
 
