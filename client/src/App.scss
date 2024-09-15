@@ -1,0 +1,42 @@
+@import '@fontsource/roboto/300.css';
+@import '@fontsource/roboto/400.css';
+@import '@fontsource/roboto/500.css';
+@import '@fontsource/roboto/700.css';
+
+
+$background-tertiarycolor: #229799; 
+$background-secondarycolor: #48CFCB; 
+$background-defaultcolor: #424242;
+$header-backgroundcolor: #F5F5F5;
+
+$font-defaultcolor: #FFF5EA;
+$font-secondarycolor: #888;
+$font-blackcolor: #313638;
+
+// https://colorhunt.co/palette/f5f5f548cfcb229799424242
+
+
+::-webkit-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */ display: none;
+}
+
+::-webkit-scrollbar-thumb {
+    border: 3px solid #0000004b;
+    border-radius: 10px;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+  
+  
+body {
+    background-color: $background-defaultcolor;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}

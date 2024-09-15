@@ -1,0 +1,59 @@
+
+
+$header-backgroundcolor: #F5F5F5;
+$sidebar-backgroundcolor: #acacac;
+
+.MuiButton-root:focus {
+    outline: none;
+}
+
+span {
+    color: #313638;;
+}
+
+.header {
+    background-color:  $header-backgroundcolor;
+
+    padding: 10px;
+    width: 100vw; 
+    min-width: 100vw;
+    height: 8vh;
+
+    position: fixed;
+    box-sizing: border-box;
+
+    top: 0;
+    left: 0;
+    z-index: 1000;
+
+    display: flex;
+    overflow: hidden;
+
+    -webkit-box-shadow: 0px 9px 24px -14px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 9px 24px -14px rgba(0,0,0,0.75);
+    box-shadow: 0px 9px 24px -14px rgba(0,0,0,0.75);
+}
+
+.MenuOption{
+    gap: 5%;
+    overflow-x: hidden;
+}
+
+
+.header-left, .header-right{
+    display: flex;
+    width: 50%;
+    gap: 2%;
+    align-items: center;
+    overflow: hidden;
+}
+
+.header-right{
+    flex-direction: row-reverse;
+    overflow-x: hidden; 
+}
+
+.sidebar{
+    background-color: $sidebar-backgroundcolor;
+    z-index: 20;
+}

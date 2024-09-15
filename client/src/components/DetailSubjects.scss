@@ -1,0 +1,66 @@
+
+$background-secondarycolor: #1976D5; 
+$background-defaultcolor: #424242;
+$header-backgroundcolor: #ebebeb;
+
+$font-defaultcolor: #FFF5EA;
+$font-secondarycolor: #888;
+$font-blackcolor: #313638;
+
+$temp-background: #00000036 ;
+
+.CurricularUnitPage{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2%
+}
+
+.CurrUnitHeader{
+    height: 30vh;
+    width: 100vw;
+    background-color: $background-secondarycolor;
+    display: flex;
+    align-items: end;
+    flex-direction: column ;
+    padding-right: 5%;
+    border: 3px solid $temp-background;
+    margin-top: 4%;
+    margin-bottom: 2%;
+}
+
+.CurrUnitHeader > h1 {
+    margin-bottom: 0;
+}
+
+.CurrUnitHeader > h2 {
+    margin: 0.2vh;
+}
+
+.CurrUnitContent{
+    display: flex;
+    width: 96%;
+    border-radius: 12px;
+    background-color: #DADADA;
+    margin-bottom: 2%;
+}
+
+.SubjectContentHeader {
+    flex: 1;
+    height: 8vh;
+    width: 100%;
+    background-color: $header-backgroundcolor;
+    border-radius: 0px 0px 12px 12px;
+    -webkit-box-shadow: 0px 9px 24px -14px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 9px 24px -14px rgba(0,0,0,0.75);
+    box-shadow: 0px 9px 24px -14px rgba(0,0,0,0.75);
+    position: fixed;
+    top: 8vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+
+
+
