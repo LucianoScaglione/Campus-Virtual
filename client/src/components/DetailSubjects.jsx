@@ -1,12 +1,10 @@
 import { useEffect, useState, } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { Outlet, useParams } from "react-router";
 import { detailCurriculumUnit, emptyState } from "../redux/actions";
 
 import './DetailSubjects.scss'
-
 import SubjectContentHeader from "./SubjectContent/SubjectContentHeader";
-
 import SubjectNews from "./SubjectContent/SubjectNews";
 import SubjectMembers from "./SubjectContent/SubjectMembers";
 import SubjectWorklist from "./SubjectContent/SubjectWorklist";
@@ -24,10 +22,13 @@ const DetailSubjects = () => {
     };
   }, [dispatch, id])
 
+  const currentRoute = "/curriculumUnit/"+id
+
   return (
     <div className="CurricularUnitPage">
+      
 
-      <SubjectContentHeader setCurrentArea={setCurrentArea}/>
+      <SubjectContentHeader currentRoute={currentRoute}/>
 
       <div className='CurrUnitHeader'>
         <h1>{curriculumUnit.name}</h1>
@@ -35,15 +36,8 @@ const DetailSubjects = () => {
       </div>
       
 
-      <div className="CurrUnitContent">
+      <Outlet/>
 
-        {currentArea == 1 ? (<SubjectNews/>) : null}
-        {currentArea == 2 ? (<SubjectWorklist/>) : null}
-        {currentArea == 3 ? (<SubjectMembers/>) : null}
-
-        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-
-      </div>
 
       {/* <h1>{curriculumUnit.name}</h1>
       <h3>{curriculumUnit.assignedTeacher}</h3>

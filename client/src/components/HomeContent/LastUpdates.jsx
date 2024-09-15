@@ -27,7 +27,7 @@ function LastUpdates() {
 
       {curriculumUnit.map((value,index) => {
         return (
-          <Link to={`/curriculumUnit/${value.id}`}>
+          <Link to={`/curriculumUnit/${value.id}/news`}>
             <div className='CurrUnitCard' key={value.id}>
               <h2 className='CurrUnitTitle'>{value.name}</h2>
               <div className='CurrUnitInfo'>

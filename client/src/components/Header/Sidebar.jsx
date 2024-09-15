@@ -65,7 +65,7 @@ export default function Sidebar() {
         {
             curriculumUnit.length ? curriculumUnit.map(c => {
             return (
-            <Link to={`/curriculumUnit/${c.id}`}>
+            <Link to={`/curriculumUnit/${c.id}/news`}>
             <ListItem key={c.id} disablePadding>
                 <ListItemButton>
                     <ListItemAvatar>

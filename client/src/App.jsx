@@ -4,6 +4,10 @@ import DetailSubjects from './components/DetailSubjects';
 import './App.scss'
 import Header from './components/Header/Header';
 
+import SubjectNews from './components/SubjectContent/SubjectNews';
+import SubjectMembers from './components/SubjectContent/SubjectMembers';
+import SubjectWorklist from './components/SubjectContent/SubjectWorklist';
+
 const App = () => {
 
   return (
@@ -14,7 +18,13 @@ const App = () => {
       <div style={{marginTop: "12vh"}}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/curriculumUnit/:id" element={<DetailSubjects />} />
+          <Route element={<DetailSubjects />} >
+          
+            <Route path={"/curriculumUnit/:id/news"} element={<SubjectNews/>}/>
+            <Route path={"/curriculumUnit/:id/work"} element={<SubjectWorklist/>}/>
+            <Route path={"/curriculumUnit/:id/members"} element={<SubjectMembers/>}/>
+          
+          </Route>
         </Routes>
       </div>
 

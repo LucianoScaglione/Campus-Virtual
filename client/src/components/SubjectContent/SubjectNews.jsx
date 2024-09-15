@@ -6,10 +6,7 @@ const SubjectNews = () => {
 
     return (
         <div className="CurrUnitContent">
-            <div className='CurrUnitViewerHeader'>
-                <h2><b>NOVEDADES</b></h2>
-            </div>
-
+            <div className='CurrUnitViewerHeader'><h2><b>NOVEDADES</b></h2></div>
         </div>
     );
 };
