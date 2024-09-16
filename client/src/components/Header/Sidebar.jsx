@@ -24,74 +24,76 @@ import { Link } from 'react-router-dom';
 
 export default function Sidebar() {
 
-    //controlador del sidebar
-    const [open, setOpen] = React.useState(false)
+  //controlador del sidebar
+  const [open, setOpen] = React.useState(false)
 
-    const toggleDrawer = (newOpen) => () => {
+  const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
-    };
+  };
 
-    //llamada a las unidades curriculares
-    const dispatch = useDispatch();
-    const curriculumUnit = useSelector(state => state.curriculumUnit);
+  //llamada a las unidades curriculares
+  const dispatch = useDispatch();
+  const curriculumUnit = useSelector(state => state.curriculumUnit);
 
-    useEffect(() => {
+  useEffect(() => {
     !curriculumUnit.length &&
-        dispatch(getCurriculumUnit());
-    }, [dispatch, curriculumUnit.length])
+      dispatch(getCurriculumUnit());
+  }, [dispatch, curriculumUnit.length])
 
-    const DrawerList = (
+  const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
-        <List>
+      <List>
 
         {/* EN ESTE APARTADO IRAN LAS OPCIONES QUE NO REQUIEREN MAP, ES DECIR AQUELLAS QUE NO REQUIERAN ALGUN TIPO DE ARRAY NI NADA POR EL ESTILO*/}
-            <Link to={`archivados`}> <ListItem key={'Archivados'} disablePadding>
-                <ListItemButton>
-                    <ListItemAvatar>
-                        <Avatar>
-                            <InboxIcon />
-                        </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={'Archivados'} />
-                </ListItemButton>
-            </ListItem> </Link>
+        <Link to={`archivados`}> <ListItem key={'Archivados'} disablePadding>
+          <ListItemButton>
+            <ListItemAvatar>
+              <Avatar>
+                <InboxIcon />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={'Archivados'} />
+          </ListItemButton>
+        </ListItem> </Link>
 
 
-        </List>
+      </List>
 
-        <Divider />
+      <Divider />
 
-        <List>
+      <List>
         {
-            curriculumUnit.length ? curriculumUnit.map(c => {
+          curriculumUnit.length ? curriculumUnit.map(c => {
             return (
-            <Link to={`/curriculumUnit/${c.id}/news`}>
-            <ListItem key={c.id} disablePadding>
-                <ListItemButton>
-                    <ListItemAvatar>
+              <div key={c.id}>
+                <Link to={`/curriculumUnit/${c.id}/news`}>
+                  <ListItem key={c.id} disablePadding>
+                    <ListItemButton>
+                      <ListItemAvatar>
                         <Avatar>
-                            <FolderIcon/>
+                          <FolderIcon />
                         </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={c.name} />
-                </ListItemButton>
-            </ListItem>
-            </Link>
+                      </ListItemAvatar>
+                      <ListItemText primary={c.name} />
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
+              </div>
             );
-            }) : null
+          }) : null
         }
-        </List>
+      </List>
 
     </Box>
-)
+  )
 
-    return (
-        <div>
-            <Button variant="text" onClick={toggleDrawer(true)}><MenuIcon/></Button>
-            <Drawer open={open}  onClose={toggleDrawer(false)}>
-            {DrawerList}
-            
-            </Drawer>
-        </div>
-    );
+  return (
+    <div>
+      <Button variant="text" onClick={toggleDrawer(true)}><MenuIcon /></Button>
+      <Drawer open={open} onClose={toggleDrawer(false)}>
+        {DrawerList}
+
+      </Drawer>
+    </div>
+  );
 }

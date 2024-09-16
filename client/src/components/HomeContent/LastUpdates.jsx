@@ -16,32 +16,32 @@ function LastUpdates() {
     !curriculumUnit.length &&
       dispatch(getCurriculumUnit());
   }, [dispatch, curriculumUnit.length])
-  
+
 
   return (
     <div className="CurrUnitViewerContent">
-      
+
       <div className='CurrUnitViewerHeader'>
         <h2><b>Unidades Curriculares</b></h2>
       </div>
 
-      {curriculumUnit.map((value,index) => {
+      {curriculumUnit.map((value, index) => {
         return (
-          <Link to={`/curriculumUnit/${value.id}/news`}>
-            <div className='CurrUnitCard' key={value.id}>
-              <h2 className='CurrUnitTitle'>{value.name}</h2>
-              <div className='CurrUnitInfo'>
-
-                    <span><b>Profesor asignado: </b>{value.assignedTeacher}</span>
-
+          <div key={index}>
+            <Link to={`/curriculumUnit/${value.id}/news`}>
+              <div className='CurrUnitCard' key={value.id}>
+                <h2 className='CurrUnitTitle'>{value.name}</h2>
+                <div className='CurrUnitInfo'>
+                  <span><b>Profesor asignado: </b>{value.assignedTeacher}</span>
+                </div>
               </div>
-            </div>
-          </Link>
+            </Link>
+          </div>
         );
       })}
 
-    </div>
-    
+    </div >
+
   );
 }
 

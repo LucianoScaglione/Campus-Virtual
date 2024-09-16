@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const backend = 'http://localhost:3001';
 
@@ -27,3 +28,29 @@ export const emptyState = () => {
     type: EMPTY_STATE
   };
 };
+
+export const loginUser = (state) => {
+  return axios.post(`${backend}/users/login`, state)
+    .then(res => {
+      const token = res.data.token;
+      if (token) {
+        localStorage.setItem('user', JSON.stringify(res.data));
+      };
+      return res.data;
+    })
+    .catch(error => Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: `${error.response.data}`,
+    }));
+};
+
+export const informationUser = () => {
+  const user = localStorage.getItem("user");
+  if (user) {
+    return JSON.parse(user);
+  } else {
+    return {};
+  };
+};
+

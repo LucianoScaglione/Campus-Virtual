@@ -83,6 +83,14 @@ const addUsersToCurriculumUnit = async (req, res, next) => {
     const { id } = req.params;
     const { UserId } = req.body;
 
+    const searchUsers = await Users.findAll({ where: { id: UserId } });
+    const userIdsInDb = searchUsers.map(user => user.id);
+    const unregisteredUser = UserId.filter(userId => !userIdsInDb.includes(userId));
+
+    if (unregisteredUser.length > 0) {
+      return res.status(400).send('There is no registered user with that id');
+    };
+
     const findCurriculumUnit = await CurriculumUnit.findByPk(id);
 
     if (!findCurriculumUnit) {
@@ -90,16 +98,17 @@ const addUsersToCurriculumUnit = async (req, res, next) => {
     };
 
     const users = await findCurriculumUnit.getUsers(); // Obtener usuarios asociados
-    const userExists = users.find(user => user.id === UserId);
+    const existingUsers = users.map(user => user.id);
+    const usersToAdd = UserId.filter(userId => existingUsers.includes(userId));
 
-    if (userExists) {
+    if (usersToAdd.length > 0) {
       return res.status(400).send('Cannot add a user who already belongs to the unit');
     };
 
-    await findCurriculumUnit.addUsers(UserId);
-
-    res.status(200).send(`Added user to the curriculum unit ${findCurriculumUnit.name}`);
-
+    UserId.forEach(async id => {
+      await findCurriculumUnit.addUsers(id);
+    });
+    res.status(200).send(`Added users to the curriculum unit ${findCurriculumUnit.name}`);
   } catch (error) {
     next(error);
   };
