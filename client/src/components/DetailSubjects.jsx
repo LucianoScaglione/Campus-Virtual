@@ -5,13 +5,10 @@ import { detailCurriculumUnit, emptyState } from "../redux/actions";
 
 import './DetailSubjects.scss'
 import SubjectContentHeader from "./SubjectContent/SubjectContentHeader";
-import SubjectNews from "./SubjectContent/SubjectNews";
-import SubjectMembers from "./SubjectContent/SubjectMembers";
-import SubjectWorklist from "./SubjectContent/SubjectWorklist";
+
 
 const DetailSubjects = () => {
   const { id } = useParams();
-  const [currentArea, setCurrentArea] = useState(1);
 
   const curriculumUnit = useSelector(state => state.detailCurriculumUnit);
   const dispatch = useDispatch();

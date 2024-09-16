@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { detailCurriculumUnit, emptyState } from "../../redux/actions";
 
-import { useNavigate } from "react-router";
-
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -14,7 +12,6 @@ import '../DetailSubjects.scss'
 
 const SubjectContentHeader = ({currentRoute}) => {
 
-    const navigate = useNavigate()
     
 
     return (
