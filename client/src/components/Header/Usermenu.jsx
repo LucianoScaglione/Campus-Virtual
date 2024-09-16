@@ -9,7 +9,7 @@ import ChatIcon from '@mui/icons-material/Chat';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-export default function Usermenu() {
+export default function Usermenu({firstLetters}) {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
   const handleClick = (event) => {
@@ -28,7 +28,7 @@ export default function Usermenu() {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
       >
-        <Avatar> {"PH" /*ESTO HAY QUE HACERLO POR CODIGO (NAME[0] LASTNAME[0])*/} </Avatar>
+        <Avatar> {firstLetters} </Avatar>
       </Button>
       <Menu
         id="basic-menu"
@@ -42,7 +42,7 @@ export default function Usermenu() {
         <MenuItem onClick={handleClose} className='MenuOption'><AccountBoxIcon/>Perfil</MenuItem>
         <MenuItem onClick={handleClose} className='MenuOption'><ChatIcon/>Chat</MenuItem>
         {/*ACA IRIA EL MENU ITEM SI SOS ADMIN PARA IR AL ADMIN PANEL XD*/}
-        <MenuItem onClick={handleClose} className='MenuOption'><LogoutIcon/>Cerrar Sesion</MenuItem>
+        <MenuItem onClick={() => { localStorage.removeItem("user"); window.location.reload(); }} className='MenuOption'><LogoutIcon/>Cerrar Sesion</MenuItem>
       </Menu>
     </div>
   );

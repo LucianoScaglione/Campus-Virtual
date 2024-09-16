@@ -8,7 +8,12 @@ import { Link } from 'react-router-dom'
 import Sidebar from './Sidebar'
 import Usermenu from './Usermenu'
 
+import PrivatesRoutes from '../PrivatesRoutes'
+import { informationUser } from '../../redux/actions'
+
 function Header() {
+
+  const userData = informationUser().user
 
   return (
     <div className="header">
@@ -18,9 +23,8 @@ function Header() {
       </div>
 
       <div className='header-right'>
-        <button onClick={() => { localStorage.removeItem("user"); window.location.reload(); }}>Cerrar sesión</button>
-        <Usermenu />
-        <Button variant="text">Place Holder</Button>
+        <Usermenu firstLetters={userData.name[0] +userData.lastName[0]}/>
+        <Button variant="text">{userData.name +" "+ userData.lastName}</Button>
       </div>
 
     </div>
