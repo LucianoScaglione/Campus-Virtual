@@ -4,8 +4,8 @@
 @import '@fontsource/roboto/700.css';
 
 
-$background-tertiarycolor: #229799; 
-$background-secondarycolor: #48CFCB; 
+
+$background-secondarycolor: #1976D5; 
 $background-defaultcolor: #424242;
 $header-backgroundcolor: #F5F5F5;
 
@@ -39,4 +39,42 @@ body {
     flex-direction: column;
     align-items: center;
     text-align: center;
+}
+
+.LoginBoxHeader{
+    display: flex;
+    background-color: $background-secondarycolor;
+    height: 7vh;
+    width: 100%;
+    border-radius: 12px 12px 0 0;
+    align-items: center;
+    margin: 0;
+}
+
+.LoginBoxHeader > h2 {
+    padding-left: 5%;
+    margin: 0;
+}
+
+.LoginBox{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 12px;
+    background-color: $header-backgroundcolor;
+    gap: 1vh;
+    width: 20vw;
+}
+
+.LoginBoxContent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: $header-backgroundcolor;
+    margin-bottom: 2%;
+    gap: 2vh;
+}
+
+.LoginBoxContent:last-child{
+    margin-bottom: 5%;
 }

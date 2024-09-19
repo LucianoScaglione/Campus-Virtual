@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "./redux/actions";
+import './App.scss'
+
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 
 const Login = () => {
   const [state, setState] = useState({
@@ -26,14 +32,20 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <label>Email</label>
-        <input type='email' name='email' value={state.email} placeholder="Enter your email" onChange={handleChange} />
-        <label>Password</label>
-        <input type='password' name='password' value={state.password} placeholder="Enter your password" onChange={handleChange} />
-        <input type='submit' value='Login' />
+    <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100vh"}}>
+      <form onSubmit={handleSubmit} className="LoginBox">
+
+        <div className="LoginBoxHeader">
+          <h2>Login</h2>
+        </div>
+
+        <div className="LoginBoxContent">
+          <TextField id="standard-basic" label="Email" variant="standard" type='email' name='email' value={state.email} placeholder="Enter your email" onChange={handleChange}/>
+          <TextField id="standard-basic" label="Password" variant="standard" type='password' name='password' value={state.password} placeholder="Enter your password" onChange={handleChange}/>
+          <Button variant="outlined" type='submit' value='Login'>Login</Button>
+        </div>
       </form>
+
     </div>
   );
 };
