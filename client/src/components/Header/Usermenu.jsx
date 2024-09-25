@@ -4,12 +4,14 @@ import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import Avatar from '@mui/material/Avatar'
 import './header.scss'
-
 import ChatIcon from '@mui/icons-material/Chat';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import LogoutIcon from '@mui/icons-material/Logout';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import { isAuthenticated } from '../PrivatesRoutesAdmin'
+import { Link } from 'react-router-dom'
 
-export default function Usermenu({firstLetters}) {
+export default function Usermenu({ firstLetters }) {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
   const handleClick = (event) => {
@@ -18,7 +20,7 @@ export default function Usermenu({firstLetters}) {
   const handleClose = () => {
     setAnchorEl(null)
   };
-
+  const userLogin = isAuthenticated();
   return (
     <div>
       <Button
@@ -39,10 +41,10 @@ export default function Usermenu({firstLetters}) {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleClose} className='MenuOption'><AccountBoxIcon/>Perfil</MenuItem>
-        <MenuItem onClick={handleClose} className='MenuOption'><ChatIcon/>Chat</MenuItem>
-        {/*ACA IRIA EL MENU ITEM SI SOS ADMIN PARA IR AL ADMIN PANEL XD*/}
-        <MenuItem onClick={() => { localStorage.removeItem("user"); window.location.reload(); }} className='MenuOption'><LogoutIcon/>Cerrar Sesion</MenuItem>
+        <MenuItem onClick={handleClose} className='MenuOption'><AccountBoxIcon />Perfil</MenuItem>
+        <MenuItem onClick={handleClose} className='MenuOption'><ChatIcon />Chat</MenuItem>
+        {userLogin.user.ranks === 'Admin' && <MenuItem onClick={handleClose} className='MenuOption'><AdminPanelSettingsIcon /><Link to='/admin/panel'>Admin panel</Link></MenuItem>}
+        <MenuItem onClick={() => { localStorage.removeItem("user"); window.location.reload(); }} className='MenuOption'><LogoutIcon />Cerrar Sesion</MenuItem>
       </Menu>
     </div>
   );

@@ -6,6 +6,9 @@ const backend = 'http://localhost:3001';
 export const GET_CURRICULUMUNIT = "GET_CURRICULUMUNIT";
 export const DETAIL_CURRICULUMUNIT = "DETAIL_CURRICULUMUNIT";
 export const EMPTY_STATE = "EMPTY_STATE";
+export const GET_USERS = "GET_USERS";
+export const GET_USER = "GET_USER";
+export const DELETE_USER = "DELETE_USER";
 
 export const getCurriculumUnit = () => {
   return (dispatch) => {
@@ -54,3 +57,92 @@ export const informationUser = () => {
   };
 };
 
+export const getUsers = () => {
+  return (dispatch) => {
+    return axios.get(`${backend}/users`)
+      .then(res => dispatch({ type: GET_USERS, payload: res.data }))
+      .catch(error => console.log(error));
+  };
+};
+
+export const getUser = (id) => {
+  return (dispatch) => {
+    return axios.get(`${backend}/users/${id}`)
+      .then(res => dispatch({ type: GET_USER, payload: res.data }))
+      .catch(error => console.log(error));
+  };
+};
+
+export const updateUser = (id, state) => {
+  return () => {
+    return axios.put(`${backend}/users/${id}`, state)
+      .then(res => {
+        const response = () => {
+          Swal.fire({
+            icon: "success",
+            title: `${res.data.msg}`,
+            showConfirmButton: false,
+            timer: 2000
+          });
+          if (res.status === 200) {
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);
+          };
+        };
+        response();
+      })
+      .catch(error => Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: `${error.response.data}`,
+      }));
+  };
+};
+
+export const createUser = (state) => {
+  return () => {
+    return axios.post(`${backend}/users/create`, state)
+      .then(res => {
+        const response = () => {
+          Swal.fire({
+            icon: "success",
+            title: `${res.data.msg}`,
+            showConfirmButton: false,
+            timer: 2000
+          });
+          if (res.status === 201) {
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);
+          };
+        };
+        response();
+      })
+      .catch(error => Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: `${error.response.data}`,
+      }));
+  };
+};
+
+export const deleteUser = (id) => {
+  return (dispatch) => {
+    return axios.delete(`${backend}/users/${id}`)
+      .then(res => {
+        dispatch({ type: DELETE_USER, payload: id })
+        Swal.fire({
+          icon: "success",
+          title: `${res.data.msg}`,
+          showConfirmButton: false,
+          timer: 1200
+        });
+      })
+      .catch(error => Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: `${error.response.data}`,
+      }));
+  };
+};

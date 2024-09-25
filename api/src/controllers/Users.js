@@ -49,9 +49,9 @@ const getUser = async (req, res, next) => {
 
 const createUser = async (req, res, next) => {
   try {
-    const { dni, name, lastName, profilePicture, dateOfBirth, address, phone, ranks, password } = req.body;
+    const { dni, name, lastName, dateOfBirth, address, phone, ranks } = req.body;
 
-    if (!(dni && name && lastName && dateOfBirth && password)) {
+    if (!(dni && name && lastName && dateOfBirth)) {
       return res.status(400).send('You must fill out the required fields');
     };
 
@@ -61,15 +61,14 @@ const createUser = async (req, res, next) => {
       return res.status(400).send('There is already a registered user with that ID');
     };
 
-    const encryptedPassword = await bcrypt.hash(password, 10);
+    const encryptedPassword = await bcrypt.hash(dni, 10);
 
     const createUser = await Users.create({
       dni,
       name,
       lastName,
-      profilePicture,
       dateOfBirth,
-      email: `${dni}@gmail.com`,
+      email: `${dni}@campusmail.com`,
       address,
       phone,
       ranks: ranks ? ranks : 'Student',

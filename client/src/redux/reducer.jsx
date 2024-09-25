@@ -1,9 +1,11 @@
-import { GET_CURRICULUMUNIT, DETAIL_CURRICULUMUNIT, EMPTY_STATE } from './actions';
+import { GET_CURRICULUMUNIT, DETAIL_CURRICULUMUNIT, EMPTY_STATE, GET_USERS, GET_USER, DELETE_USER } from './actions';
 
 const initialState = {
   curriculumUnit: [],
   curriculumUnitCopy: [],
-  detailCurriculumUnit: {}
+  detailCurriculumUnit: {},
+  users: [],
+  user: []
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -25,6 +27,25 @@ const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         detailCurriculumUnit: {}
+      };
+    };
+    case GET_USERS: {
+      return {
+        ...state,
+        users: payload
+      };
+    };
+    case GET_USER: {
+      return {
+        ...state,
+        user: payload
+      };
+    };
+    case DELETE_USER: {
+      const deletedUser = state.users.filter(user => user.id !== payload);
+      return {
+        ...state,
+        users: deletedUser
       };
     };
     default: return state;

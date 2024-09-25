@@ -8,6 +8,8 @@ import PrivatesRoutes from './components/PrivatesRoutes';
 import SubjectNews from './components/SubjectContent/SubjectNews';
 import SubjectMembers from './components/SubjectContent/SubjectMembers';
 import SubjectWorklist from './components/SubjectContent/SubjectWorklist';
+import AdminPanel from './components/AdminPanel/AdminPanel';
+import PrivatesRoutesAdmin from './components/PrivatesRoutesAdmin';
 
 const App = () => {
 
@@ -36,6 +38,9 @@ const App = () => {
               <Route path={"/curriculumUnit/:id/work"} element={<SubjectWorklist />} />
               <Route path={"/curriculumUnit/:id/members"} element={<SubjectMembers />} />
             </Route>
+          </Route>
+          <Route element={<PrivatesRoutesAdmin />}>
+            <Route path="/admin/panel" element={<AdminPanel />} />
           </Route>
         </Route>
       </Routes>
