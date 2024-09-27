@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import style from './AdminPanel.module.scss';
 import Users from './Users';
+import Subjects from './Subjects/Subjects';
 import SchoolIcon from '@mui/icons-material/School'; 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'; 
 import { informationUser } from '../../redux/actions';
@@ -34,7 +35,7 @@ const AdminPanel = () => {
         </aside>
         <article className={style.article}>
           {value === 'users' && <Users />}
-          {/* {value === 'curriculumUnits' && <CurriculumUnits />} */}
+          {value === 'curriculumUnits' && <Subjects />}
         </article>
       </div>
     </div>

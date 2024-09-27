@@ -1,4 +1,4 @@
-import { GET_CURRICULUMUNIT, DETAIL_CURRICULUMUNIT, EMPTY_STATE, GET_USERS, GET_USER, DELETE_USER, SEARCH_USERS } from './actions';
+import { GET_CURRICULUMUNIT, DETAIL_CURRICULUMUNIT, EMPTY_STATE, GET_USERS, GET_USER, DELETE_USER, SEARCH_USERS, DELETE_CURRICULUMUNIT } from './actions';
 
 const initialState = {
   curriculumUnit: [],
@@ -23,12 +23,20 @@ const reducer = (state = initialState, { type, payload }) => {
         detailCurriculumUnit: payload
       };
     };
+    case DELETE_CURRICULUMUNIT: {
+      const deletedCurriculumUnit = state.curriculumUnit.filter(curriculumUnit => curriculumUnit.id !== payload);
+      return {
+        ...state,
+        curriculumUnit: deletedCurriculumUnit
+      };
+    };
     case EMPTY_STATE: {
       return {
         ...state,
         detailCurriculumUnit: {}
       };
     };
+
     case GET_USERS: {
       return {
         ...state,

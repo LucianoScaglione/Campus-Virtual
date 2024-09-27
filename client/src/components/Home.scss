@@ -41,7 +41,7 @@ span {
     display: flex;
     flex-direction: column;
     justify-content: start;
-    gap: 1vw;
+    gap: 1%;
 }
 
 .CurrUnitCard{
@@ -49,14 +49,23 @@ span {
     display: flex;
     align-items: center;
     overflow: hidden;
-    gap: 0.5%;
+    gap: 1%;
     display: flex;
     flex-direction: column;
-    margin-bottom: 2%;
+    margin: 2%;
+    padding: 1%;
+    background-color: $header-backgroundcolor;
+    border-radius: 11px;
+    -webkit-box-shadow: 0px 9px 24px -14px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 9px 24px -14px rgba(0,0,0,0.75);
+    box-shadow: 0px 9px 24px -14px rgba(0,0,0,0.75);
+}
+
+.CurrUnitCard:last-child{
+    padding-bottom: 2% ;
 }
 
 .CurrUnitCard:hover{
-    background-color: #0000000a ;
     filter: brightness(75%);
 }
 
@@ -78,7 +87,7 @@ span {
     display: flex;
     justify-content: start;
     padding-left: 3.5vw;
-    color: $font-defaultcolor;
+    color: $font-blackcolor;
     margin-bottom: 0.5%;
 }
 

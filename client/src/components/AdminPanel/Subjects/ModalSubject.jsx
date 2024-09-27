@@ -1,6 +1,6 @@
-import style from './Modal.module.css';
+import style from '../Modal.module.css';
 
-const Modal = ({ children, isOpen, setIsOpen, titleModal, dispatch }) => {
+const ModalUser = ({ children, isOpen, setIsOpen, titleModal, dispatch }) => {
   return (
     <div>
       {isOpen &&
@@ -23,4 +23,4 @@ const Modal = ({ children, isOpen, setIsOpen, titleModal, dispatch }) => {
   );
 };
 
-export default Modal;
+export default ModalUser;

@@ -5,11 +5,25 @@ const backend = 'http://localhost:3001';
 
 export const GET_CURRICULUMUNIT = "GET_CURRICULUMUNIT";
 export const DETAIL_CURRICULUMUNIT = "DETAIL_CURRICULUMUNIT";
+export const CREATE_CURRICULUMUNIT = "CREATE_CURRICULUMUNIT";
+export const DELETE_CURRICULUMUNIT = "DELETE_CURRICULUMUNIT";
+
 export const EMPTY_STATE = "EMPTY_STATE";
+
 export const GET_USERS = "GET_USERS";
 export const GET_USER = "GET_USER";
 export const DELETE_USER = "DELETE_USER";
 export const SEARCH_USERS = "SEARCH_USERS";
+
+
+
+export const emptyState = () => {
+  return {
+    type: EMPTY_STATE
+  };
+};
+
+//CURRUNIT --------------------------------------------
 
 export const getCurriculumUnit = () => {
   return (dispatch) => {
@@ -27,11 +41,81 @@ export const detailCurriculumUnit = (id) => {
   };
 };
 
-export const emptyState = () => {
-  return {
-    type: EMPTY_STATE
+export const createCurriculumUnit = (state) => {
+  return () => {
+    return axios.post(`${backend}/curriculumunit`, state)
+      .then(res => {
+        const response = () => {
+          Swal.fire({
+            icon: "success",
+            title: `${res.data.msg}`,
+            showConfirmButton: false,
+            timer: 2000
+          });
+          if (res.status === 201) {
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);
+          };
+        };
+        response();
+      })
+      .catch(error => Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: `${error.response.data}`,
+      }));
   };
 };
+
+export const deleteCurriculumUnit = (id) => {
+  return (dispatch) => {
+    return axios.delete(`${backend}/curriculumunit/${id}`)
+      .then(res => {
+        dispatch({ type: DELETE_CURRICULUMUNIT, payload: id })
+        Swal.fire({
+          icon: "success",
+          title: `${res.data.msg}`,
+          showConfirmButton: false,
+          timer: 1200
+        });
+      })
+      .catch(error => Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: `${error.response.data}`,
+      }));
+  };
+};
+
+export const updateCurriculumUnit = (id, state) => {
+  return () => {
+    return axios.put(`${backend}/curriculumunit/${id}`, state)
+      .then(res => {
+        const response = () => {
+          Swal.fire({
+            icon: "success",
+            title: `${res.data.msg}`,
+            showConfirmButton: false,
+            timer: 2000
+          });
+          if (res.status === 200) {
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);
+          };
+        };
+        response();
+      })
+      .catch(error => Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: `${error.response.data}`,
+      }));
+  };
+};
+
+//USERS --------------------------------------------
 
 export const loginUser = (state) => {
   return axios.post(`${backend}/users/login`, state)
@@ -159,3 +243,4 @@ export const searchUsers = (name) => {
       }));
   };
 };
+
