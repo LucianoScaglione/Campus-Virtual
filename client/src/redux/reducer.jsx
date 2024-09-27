@@ -1,4 +1,4 @@
-import { GET_CURRICULUMUNIT, DETAIL_CURRICULUMUNIT, EMPTY_STATE, GET_USERS, GET_USER, DELETE_USER } from './actions';
+import { GET_CURRICULUMUNIT, DETAIL_CURRICULUMUNIT, EMPTY_STATE, GET_USERS, GET_USER, DELETE_USER, SEARCH_USERS } from './actions';
 
 const initialState = {
   curriculumUnit: [],
@@ -46,6 +46,12 @@ const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         users: deletedUser
+      };
+    };
+    case SEARCH_USERS: {
+      return {
+        ...state,
+        users: payload
       };
     };
     default: return state;

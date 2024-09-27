@@ -1,0 +1,113 @@
+.globalContainer {
+  background-color: #2a3b4c;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px;
+  height: 100%;
+
+  .linkUrl {
+    text-decoration: none;
+  }
+
+  .back {
+    margin: 1px 0;
+    font-weight: 700;
+    color: white;
+  }
+
+  .container {
+    font-family: "Public Sans", sans-serif;
+    font-size: 1.2rem;
+    min-height: 100%;
+    display: grid;
+    gap: 10px;
+    grid-template-areas:
+      "header"
+      "aside"
+      "article";
+
+    .aside {
+      display: flex;
+      flex-direction: column;
+      grid-area: aside;
+      cursor: pointer;
+      padding-left: 20px;
+      box-shadow: -1px 1px 7px rgba(0, 0, 0, 0.37);
+    }
+
+    .article {
+      grid-area: article;
+      box-shadow: -1px 1px 7px rgba(0, 0, 0, 0.37);
+      max-height: 510px;
+      min-height: 300px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .selected {
+      border-bottom: 2px solid white;
+      width: 80px;
+      color: white;
+    }
+
+    .noSelected {
+      width: 80px;
+      color: gray;
+    }
+
+    @media (min-width: 900px) {
+      grid-template:
+        "header header" 50px
+        "aside article" 510px /
+        150px auto;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.2rem;
+      grid-area: header;
+      color: white;
+      font-weight: 700;
+      box-shadow: -1px 1px 7px rgba(0, 0, 0, 0.37);
+      padding: 10px 20px;
+
+      .leftSection {
+        display: flex;
+        align-items: center;
+
+        .campusIcon {
+          margin-right: 8px;
+          color: white;
+        }
+      }
+
+      .centerSection {
+        text-align: center;
+        flex: 1;
+
+        h1 {
+          font-size: 1.5rem;
+          margin: 0;
+          text-align: center;
+        }
+      }
+
+      .rightSection {
+        display: flex;
+        align-items: center;
+
+        .userIcon {
+          margin-right: 5px;
+          color: white;
+        }
+
+        p {
+          margin: 0;
+        }
+      }
+    }
+  }
+}

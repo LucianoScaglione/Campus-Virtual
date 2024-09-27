@@ -9,6 +9,7 @@ export const EMPTY_STATE = "EMPTY_STATE";
 export const GET_USERS = "GET_USERS";
 export const GET_USER = "GET_USER";
 export const DELETE_USER = "DELETE_USER";
+export const SEARCH_USERS = "SEARCH_USERS";
 
 export const getCurriculumUnit = () => {
   return (dispatch) => {
@@ -139,6 +140,18 @@ export const deleteUser = (id) => {
           timer: 1200
         });
       })
+      .catch(error => Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: `${error.response.data}`,
+      }));
+  };
+};
+
+export const searchUsers = (name) => {
+  return (dispatch) => {
+    return axios.get(`${backend}/users?name=${name}`)
+      .then(res => dispatch({ type: SEARCH_USERS, payload: res.data }))
       .catch(error => Swal.fire({
         icon: "error",
         title: "Error",

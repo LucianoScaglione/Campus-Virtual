@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import style from './PanelGeneral.module.css';
-import edit from '../../images/svg/edit.svg';
-import deletee from '../../images/svg/delete.svg';
+import './Users.scss';
 import Modal from './Modal';
-import { createUser, deleteUser, getUser, getUsers, updateUser } from '../../redux/actions';
+import { createUser, deleteUser, getUser, getUsers, searchUsers, updateUser } from '../../redux/actions';
 import spinner from '../../images/svg/spinner.svg';
 import swal from 'sweetalert';
 import { styled } from '@mui/material/styles';
@@ -16,6 +14,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import TextField from '@mui/material/TextField';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const Users = () => {
   const dispatch = useDispatch();
@@ -47,6 +48,7 @@ const Users = () => {
     userActive: ''
   });
   const [loader, setLoader] = useState(true);
+  const [search, setSearch] = useState('')
   const handleChange = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
@@ -79,10 +81,14 @@ const Users = () => {
         };
       });
   };
-  ////////////
+  const handleChangeSearch = (e) => {
+    e.preventDefault();
+    setSearch(e.target.value);
+    dispatch(searchUsers(e.target.value));
+  };
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
+      backgroundColor: '#1976d2',
       color: theme.palette.common.white,
     },
     [`&.${tableCellClasses.body}`]: {
@@ -93,6 +99,9 @@ const Users = () => {
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.action.hover,
+    },
+    '&:hover': {
+      backgroundColor: theme.palette.grey[300],
     },
     '&:last-child td, &:last-child th': {
       border: 0,
@@ -115,17 +124,26 @@ const Users = () => {
     });
   }, [user]);
   if (loader) {
-    return <img src={spinner} className={style.spinner} alt='' />
+    return <img src={spinner} className='spinner' alt='' />
   };
   return (
     <div>
-      <div className={style.upperContainer}>
+      <div className='upperContainer'>
         <Button variant="text" onClick={() => dispatch(getUsers())}>All users</Button>
-        <Button className={style.buttonCrearProducto} variant="contained" onClick={() => setIsOpen2(true)}>Create user</Button>
-        <div className={style.divBuscarOrdenYUsuario}>
+        <Button variant="contained" onClick={() => setIsOpen2(true)}>Create user</Button>
+        <div className='searchContainer'>
           <form>
-            <input type='text' placeholder='Search user' />
-            <button className={style.buttonBuscar} title='Buscar'><svg className={style.svg} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z" /></svg></button>
+            <TextField
+              id="standard-search"
+              label="Search user"
+              type="search"
+              variant="standard"
+              fullWidth
+              InputProps={{ style: { color: '#ffffff' } }}
+              InputLabelProps={{ style: { color: '#ffffff' } }}
+              onChange={handleChangeSearch}
+            />
+            <svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none" /><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" /></svg>
           </form>
         </div>
       </div>
@@ -134,37 +152,49 @@ const Users = () => {
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell>Id</StyledTableCell>
-                <StyledTableCell align="center">Dni</StyledTableCell>
-                <StyledTableCell align="center">Name</StyledTableCell>
-                <StyledTableCell align="center">Last name</StyledTableCell>
-                <StyledTableCell align="center">Date of birth</StyledTableCell>
-                <StyledTableCell align="center">Email</StyledTableCell>
-                <StyledTableCell align="center">Address</StyledTableCell>
-                <StyledTableCell align="center">Phone</StyledTableCell>
-                <StyledTableCell align="center">Ranks</StyledTableCell>
-                <StyledTableCell align="center">User active</StyledTableCell>
-                <StyledTableCell align="center">Actions</StyledTableCell>
+                <StyledTableCell>ID</StyledTableCell>
+                <StyledTableCell align="center">DNI</StyledTableCell>
+                <StyledTableCell align="center">NAME</StyledTableCell>
+                <StyledTableCell align="center">LAST NAME</StyledTableCell>
+                <StyledTableCell align="center">DATE OF BIRTH</StyledTableCell>
+                <StyledTableCell align="center">EMAIL</StyledTableCell>
+                <StyledTableCell align="center">ADDRESS</StyledTableCell>
+                <StyledTableCell align="center">PHONE</StyledTableCell>
+                <StyledTableCell align="center">RANKS</StyledTableCell>
+                <StyledTableCell align="center">ACTIVE</StyledTableCell>
+                <StyledTableCell align="center">ACTIONS</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {users.length ? users.map((user) => (
-                <StyledTableRow key={user.id}>
-                  <StyledTableCell align="center">{user.id}</StyledTableCell>
-                  <StyledTableCell align="center">{user.dni}</StyledTableCell>
-                  <StyledTableCell align="center">{user.name}</StyledTableCell>
-                  <StyledTableCell align="center">{user.lastName}</StyledTableCell>
-                  <StyledTableCell align="center">{user.dateOfBirth}</StyledTableCell>
-                  <StyledTableCell align="center">{user.email}</StyledTableCell>
-                  <StyledTableCell align="center">{user.address}</StyledTableCell>
-                  <StyledTableCell align="center">{user.phone}</StyledTableCell>
-                  <StyledTableCell align="center">{user.ranks}</StyledTableCell>
-                  <StyledTableCell align="center">{user.userActive ? 'true' : 'false'}</StyledTableCell>
-                  <StyledTableCell align="center"><img className={style.svg} src={edit} alt='edit' title='Edit' onClick={() => handleClick(user.id)} /><img className={style.svg} src={deletee} alt='delete' title='Delete' onClick={() => dropUser(user.id)} /></StyledTableCell>
+              {!users.length ? (
+                <StyledTableRow>
+                  <StyledTableCell colSpan={10} align="center">
+                    <div className='noUsersContainer'>
+                      <h2>No Registered Users</h2>
+                      <p>Please add a user to get started.</p>
+                    </div>
+                  </StyledTableCell>
                 </StyledTableRow>
-              )) : <div className={style.sinOrdenes}>
-                <p>There are no registered users</p>
-              </div>}
+              ) : (
+                users.map((user) => (
+                  <StyledTableRow key={user.id}>
+                    <StyledTableCell align="center">{user.id}</StyledTableCell>
+                    <StyledTableCell align="center">{user.dni}</StyledTableCell>
+                    <StyledTableCell align="center">{user.name}</StyledTableCell>
+                    <StyledTableCell align="center">{user.lastName}</StyledTableCell>
+                    <StyledTableCell align="center">{user.dateOfBirth}</StyledTableCell>
+                    <StyledTableCell align="center">{user.email}</StyledTableCell>
+                    <StyledTableCell align="center">{user.address}</StyledTableCell>
+                    <StyledTableCell align="center">{user.phone}</StyledTableCell>
+                    <StyledTableCell align="center">{user.ranks}</StyledTableCell>
+                    <StyledTableCell align="center">{user.userActive ? 'true' : 'false'}</StyledTableCell>
+                    <StyledTableCell align="center">
+                      <EditIcon sx={{ cursor: 'pointer', fontSize: 20, marginRight: 1 }} title='Edit' onClick={() => handleClick(user.id)} />
+                      <DeleteIcon sx={{ cursor: 'pointer', fontSize: 20 }} title='Delete' onClick={() => dropUser(user.id)} />
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </TableContainer>
