@@ -117,22 +117,24 @@ const addUsersToCurriculumUnit = async (req, res, next) => {
 const removeUserFromCurriculumUnit = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { UserId } = req.body;
-
-    const findCurriculumUnit = await CurriculumUnit.findByPk(id);
-
-    if (!findCurriculumUnit) {
+    const { UserId } = req.body; 
+    const curriculumUnit = await CurriculumUnit.findByPk(id);
+    if (!curriculumUnit) {
       return res.status(404).send('Curriculum unit not found');
-    };
-
-    // Eliminar el usuario de la unidad curricular
-    await findCurriculumUnit.removeUsers(UserId);
-
-    res.status(200).send('User removed successfully');
-
+    }
+    const user = await Users.findByPk(UserId);
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+    const result = await curriculumUnit.removeUser(user);
+    if (result === 0) {
+      return res.status(400).send('User is not associated with this curriculum unit');
+    }
+    res.status(200).send('User removed successfully from the curriculum unit');
   } catch (error) {
-    next(error);
-  };
+    console.error('Error removing user from curriculum unit:', error);
+    res.status(500).send('An error occurred while removing the user from the curriculum unit');
+  }
 };
 
 const deleteCurriculumUnit = async (req, res, next) => {

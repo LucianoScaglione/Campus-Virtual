@@ -122,52 +122,45 @@ export const addUsersToCurriculumUnit = (id, userIds) => {
     return axios.post(`${backend}/curriculumunit/${id}`, { UserId: userIds })
       .then(res => {
         const response = () => {
-          Swal.fire({
-            icon: "success",
-            title: `${res.data}`,
-            showConfirmButton: false,
-            timer: 2000
-          });
           if (res.status === 200) {
             setTimeout(() => {
-              window.location.reload();
             }, 3000);
           }
         };
         response();
       })
-      .catch(error => Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: `${error.response.data}`,
-      }));
   };
 };
 
-export const removeUserFromCurriculumUnit = (id, userId) => {
-  return () => {
-    return axios.delete(`${backend}/curriculumunit/remove/${id}`, { UserId: userId })
+export const removeUserFromCurriculumUnit = (curriculumUnitId, userId) => {
+  return (dispatch) => {
+    dispatch({ type: 'SET_LOADING', payload: true });
+
+    return axios.post(`${backend}/curriculumunit/${curriculumUnitId}/remove-user`, { UserId: userId })
       .then(res => {
-        const response = () => {
-          Swal.fire({
-            icon: "success",
-            title: `${res.data}`,
-            showConfirmButton: false,
-            timer: 2000
+        dispatch({ type: 'SET_LOADING', payload: false });
+        if (res.status === 200) {
+          dispatch({
+            type: 'REMOVE_USER_FROM_CURRICULUM_UNIT',
+            payload: { curriculumUnitId, userId }
           });
-          if (res.status === 200) {
-            setTimeout(() => {
-              window.location.reload();
-            }, 3000);
-          }
-        };
-        response();
+        } else {
+          throw new Error(res.data.message || 'Unexpected response from server');
+        }
       })
-      .catch(error => Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: `${error.response.data}`,
-      }));
+      .catch(error => {
+        dispatch({ type: 'SET_LOADING', payload: false });
+        const errorMessage = error.response && error.response.data && error.response.data.error
+          ? error.response.data.error
+          : error.message || 'An error occurred while removing the user';
+        
+        dispatch({ 
+          type: 'SET_ERROR', 
+          payload: errorMessage
+        });
+
+        console.error('Error removing user:', error);
+      });
   };
 };
 

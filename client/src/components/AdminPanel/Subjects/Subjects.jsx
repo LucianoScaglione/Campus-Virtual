@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import './Subjects.scss';
 import ModalSubject from './ModalSubject';
+import ModalAddUser from './ModalAddUser';
 
-import { createUser, deleteUser, getUser, getUsers, searchUsers, updateUser } from '../../../redux/actions';
-import { getCurriculumUnit, detailCurriculumUnit, createCurriculumUnit, deleteCurriculumUnit, updateCurriculumUnit, removeUserFromCurriculumUnit, addUsersToCurriculumUnit } from '../../../redux/actions';
+
+import { getUsers, getCurriculumUnit, detailCurriculumUnit, createCurriculumUnit, deleteCurriculumUnit, updateCurriculumUnit, removeUserFromCurriculumUnit, addUsersToCurriculumUnit } from '../../../redux/actions';
 import spinner from '../../../images/svg/spinner.svg';
 
 import swal from 'sweetalert';
@@ -29,7 +30,9 @@ const Subjects = () => {
   const [loader, setLoader] = useState(true);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [isOpenCreate, setIsOpenCreate] = useState(false);
-  const [isOpenAddUser, setIsOpenAddUser] = useState(false);
+  const [isOpenAddUser, setIsOpenAddUser] = useState(false); 
+  const [currentUnitCurrId, setCurrentUnitCurrId] = useState(-1);
+
 
   const clearInput = {
     name: "",
@@ -59,6 +62,11 @@ const Subjects = () => {
       Users: []
     });
   }, [currUnit]);
+
+  const users = useSelector(state => state.users);
+  useEffect(() => {
+    dispatch(getUsers()).then(setLoader(false));
+  }, [dispatch]);
 
 
   const handleClick = (id) => {
@@ -93,13 +101,10 @@ const Subjects = () => {
       });
   };
 
-  const handleAddUsers = (userIds) => {
-    dispatch(addUsersToCurriculumUnit(2, [4])); //izq es el unit id y la der es el user id
-  };
-
-  const handleRemoveUser = (userId) => {
-    dispatch(removeUserFromCurriculumUnit(2, 4));
-  };
+  const handleClickUsers = (currentUnitCurrId) => {
+    setCurrentUnitCurrId(currentUnitCurrId);
+    setIsOpenAddUser(true);
+  }
   
 
   if (loader) {
@@ -131,9 +136,6 @@ const Subjects = () => {
     },
   }));
 
-  const test = () => {
-    console.log(currUnits)
-  }
 
   return (
     <div>
@@ -141,9 +143,6 @@ const Subjects = () => {
       <div className='upperContainer'>
         <Button variant="text" onClick={() => dispatch(getCurriculumUnit())}>All Subjects</Button>
         <Button variant="contained" onClick={() => setIsOpenCreate(true)}>Create Subject</Button>
-        <button onClick={() => handleAddUsers(['user1', 'user2'])}>Agregar Usuarios</button>
-        <button onClick={() => handleRemoveUser('user1')}>Eliminar Usuario</button>
-        <Button variant="contained" onClick={test}>Testing</Button>
         <div className='searchContainer'>
           <form>
             <TextField
@@ -194,10 +193,10 @@ const Subjects = () => {
                     <StyledTableCell align="center">{currUnit.assignedTeacher}</StyledTableCell>
                     <StyledTableCell align="center">{currUnit.createdAt}</StyledTableCell>
                     <StyledTableCell align="center">{currUnit.updatedAt}</StyledTableCell>
-                    <StyledTableCell align="center">not done</StyledTableCell>
+                    <StyledTableCell align="center"><Button variant="contained" onClick={() => handleClickUsers(currUnit.id)}>EDITAR</Button></StyledTableCell>
                     <StyledTableCell align="center">
-                      <EditIcon sx={{ cursor: 'pointer', fontSize: 20, marginRight: 1 }} title='Edit' onClick={() => handleClick(currUnit.id)} />
-                      <DeleteIcon sx={{ cursor: 'pointer', fontSize: 20 }} title='Delete' onClick={() => dropCurrUnit(currUnit.id)} t />
+                      <EditIcon sx={{ cursor: 'pointer', fontSize: 20, marginRight: 1 }} title='Edit' onClick={() => handleClick(currUnit)} />
+                      <DeleteIcon sx={{ cursor: 'pointer', fontSize: 20 }} title='Delete' onClick={() => dropCurrUnit(currUnit.id)} />
                     </StyledTableCell>
                   </StyledTableRow>
                 ))
@@ -229,6 +228,9 @@ const Subjects = () => {
             <input type='text' name='assignedTeacher' placeholder='Enter the assigned teacher' />
           </form>
         </ModalSubject>
+
+        <ModalAddUser IsOpen={isOpenAddUser} SetIsOpen={setIsOpenAddUser} Title="Edit users" CurrentUnitCurr={currUnits.filter((cu) => cu.id == currentUnitCurrId)} Users={users}/>
+
 
     </div>
   );

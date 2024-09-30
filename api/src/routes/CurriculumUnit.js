@@ -7,7 +7,7 @@ router.get('/:id', CurriculumUnitControllers.getCurriculumUnitById);
 router.post('/', CurriculumUnitControllers.createCurriculumUnit);
 router.post('/:id', CurriculumUnitControllers.addUsersToCurriculumUnit);
 router.put('/:id', CurriculumUnitControllers.updateCurriculumUnit);
-router.delete('/remove/:id', CurriculumUnitControllers.removeUserFromCurriculumUnit);
+router.post('/:id/remove-user', CurriculumUnitControllers.removeUserFromCurriculumUnit);
 router.delete('/:id', CurriculumUnitControllers.deleteCurriculumUnit);
 
 module.exports = router;

@@ -5,7 +5,9 @@ const initialState = {
   curriculumUnitCopy: [],
   detailCurriculumUnit: {},
   users: [],
-  user: []
+  user: [],
+  loading: false,
+  error: null
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -46,18 +48,14 @@ const reducer = (state = initialState, { type, payload }) => {
         loading: false,
         error: null
       };
-    case REMOVE_USER_FROM_CURRICULUM_UNIT:
+    case 'REMOVE_USER_FROM_CURRICULUM_UNIT':
       return {
         ...state,
-        units: {
-          ...state.units,
-          [action.payload.id]: {
-            ...state.units[action.payload.id],
-            users: state.units[action.payload.id]?.users.filter(
-              userId => userId !== action.payload.userId
-            ) || []
-          }
-        },
+        curriculumUnits: state.curriculumUnits.map(unit =>
+          unit.id === action.payload.curriculumUnitId
+            ? { ...unit, users: unit.users.filter(user => user.id !== action.payload.userId) }
+            : unit
+        ),
         loading: false,
         error: null
       };
