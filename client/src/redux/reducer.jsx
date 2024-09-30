@@ -1,8 +1,9 @@
-import { GET_CURRICULUMUNIT, DETAIL_CURRICULUMUNIT, EMPTY_STATE, GET_USERS, GET_USER, DELETE_USER, SEARCH_USERS, DELETE_CURRICULUMUNIT } from './actions';
+import { GET_CURRICULUMUNIT, DETAIL_CURRICULUMUNIT, EMPTY_STATE, GET_USERS, GET_USER, DELETE_USER, SEARCH_USERS, DELETE_CURRICULUMUNIT, GET_CURRICULUMUNITBYID } from './actions';
 
 const initialState = {
   curriculumUnit: [],
   curriculumUnitCopy: [],
+  curriculumUnitById: [],
   detailCurriculumUnit: {},
   users: [],
   user: []
@@ -15,6 +16,12 @@ const reducer = (state = initialState, { type, payload }) => {
         ...state,
         curriculumUnit: payload,
         curriculumUnitCopy: payload
+      };
+    };
+    case GET_CURRICULUMUNITBYID: {
+      return {
+        ...state,
+        curriculumUnitById: payload
       };
     };
     case DETAIL_CURRICULUMUNIT: {
