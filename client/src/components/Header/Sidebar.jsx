@@ -21,6 +21,9 @@ import { getCurriculumUnit } from '../../redux/actions'
 import { Link } from 'react-router-dom';
 
 
+import { informationUser } from '../../redux/actions';
+
+
 
 export default function Sidebar() {
 
@@ -39,6 +42,13 @@ export default function Sidebar() {
     !curriculumUnit.length &&
       dispatch(getCurriculumUnit());
   }, [dispatch, curriculumUnit.length])
+
+  const userData = informationUser().user
+
+  function inArray(target, array){
+    return array.some(user => user.id === target)
+  }
+
 
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
@@ -62,9 +72,11 @@ export default function Sidebar() {
       <Divider />
 
       <List>
+
         {
           curriculumUnit.length ? curriculumUnit.map(c => {
             return (
+              inArray(userData.id,c.Users) || userData.ranks == "Admin" ?
               <div key={c.id}>
                 <Link to={`/curriculumUnit/${c.id}/news`}>
                   <ListItem key={c.id} disablePadding>
@@ -78,7 +90,7 @@ export default function Sidebar() {
                     </ListItemButton>
                   </ListItem>
                 </Link>
-              </div>
+              </div> : null
             );
           }) : null
         }

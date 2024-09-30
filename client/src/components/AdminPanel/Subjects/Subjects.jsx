@@ -5,7 +5,7 @@ import './Subjects.scss';
 import ModalSubject from './ModalSubject';
 
 import { createUser, deleteUser, getUser, getUsers, searchUsers, updateUser } from '../../../redux/actions';
-import { getCurriculumUnit, detailCurriculumUnit, createCurriculumUnit, deleteCurriculumUnit, updateCurriculumUnit } from '../../../redux/actions';
+import { getCurriculumUnit, detailCurriculumUnit, createCurriculumUnit, deleteCurriculumUnit, updateCurriculumUnit, removeUserFromCurriculumUnit, addUsersToCurriculumUnit } from '../../../redux/actions';
 import spinner from '../../../images/svg/spinner.svg';
 
 import swal from 'sweetalert';
@@ -27,8 +27,9 @@ const Subjects = () => {
   const dispatch = useDispatch();
 
   const [loader, setLoader] = useState(true);
-  const [isOpen, setIsOpen] = useState(false);
-  const [isOpen2, setIsOpen2] = useState(false);
+  const [isOpenEdit, setIsOpenEdit] = useState(false);
+  const [isOpenCreate, setIsOpenCreate] = useState(false);
+  const [isOpenAddUser, setIsOpenAddUser] = useState(false);
 
   const clearInput = {
     name: "",
@@ -61,7 +62,8 @@ const Subjects = () => {
 
 
   const handleClick = (id) => {
-    setIsOpen(true);
+    console.log("done")
+    setIsOpenEdit(true);
     dispatch(detailCurriculumUnit(id));
   };
   const handleChange = (e) => {
@@ -89,6 +91,14 @@ const Subjects = () => {
           swal("Deletion has been cancelled");
         };
       });
+  };
+
+  const handleAddUsers = (userIds) => {
+    dispatch(addUsersToCurriculumUnit(2, [4])); //izq es el unit id y la der es el user id
+  };
+
+  const handleRemoveUser = (userId) => {
+    dispatch(removeUserFromCurriculumUnit(2, 4));
   };
   
 
@@ -121,12 +131,19 @@ const Subjects = () => {
     },
   }));
 
+  const test = () => {
+    console.log(currUnits)
+  }
+
   return (
     <div>
 
       <div className='upperContainer'>
         <Button variant="text" onClick={() => dispatch(getCurriculumUnit())}>All Subjects</Button>
-        <Button variant="contained" onClick={() => setIsOpen2(true)}>Create Subject</Button>
+        <Button variant="contained" onClick={() => setIsOpenCreate(true)}>Create Subject</Button>
+        <button onClick={() => handleAddUsers(['user1', 'user2'])}>Agregar Usuarios</button>
+        <button onClick={() => handleRemoveUser('user1')}>Eliminar Usuario</button>
+        <Button variant="contained" onClick={test}>Testing</Button>
         <div className='searchContainer'>
           <form>
             <TextField
@@ -152,10 +169,9 @@ const Subjects = () => {
                 <StyledTableCell align="center">NAME</StyledTableCell>
                 <StyledTableCell align="center">DESCRIPTION</StyledTableCell>
                 <StyledTableCell align="center">ASSIGNED TEACHER</StyledTableCell>
-                <StyledTableCell align="center">CREATED AT</StyledTableCell>
-                <StyledTableCell align="center">UPDATED AT</StyledTableCell>
+                <StyledTableCell align="center">CREATED</StyledTableCell>
+                <StyledTableCell align="center">UPDATED</StyledTableCell>
                 <StyledTableCell align="center">USERS</StyledTableCell>
-                <StyledTableCell align="center">ACTIVE</StyledTableCell>
                 <StyledTableCell align="center">ACTIONS</StyledTableCell>
               </TableRow>
             </TableHead>
@@ -179,7 +195,6 @@ const Subjects = () => {
                     <StyledTableCell align="center">{currUnit.createdAt}</StyledTableCell>
                     <StyledTableCell align="center">{currUnit.updatedAt}</StyledTableCell>
                     <StyledTableCell align="center">not done</StyledTableCell>
-                    <StyledTableCell align="center">UNDEFINED</StyledTableCell>
                     <StyledTableCell align="center">
                       <EditIcon sx={{ cursor: 'pointer', fontSize: 20, marginRight: 1 }} title='Edit' onClick={() => handleClick(currUnit.id)} />
                       <DeleteIcon sx={{ cursor: 'pointer', fontSize: 20 }} title='Delete' onClick={() => dropCurrUnit(currUnit.id)} t />
@@ -191,7 +206,7 @@ const Subjects = () => {
           </Table>
         </TableContainer>
         
-        <ModalSubject isOpen={isOpen} setIsOpen={setIsOpen} titleModalUser="Subjects" dispatch={handleSubmitEdit}>
+        <ModalSubject isOpen={isOpenEdit} setIsOpen={setIsOpenEdit} titleModalUser="Subjects" dispatch={handleSubmitEdit}>
           <h2>Edit Subject</h2>
           <form onChange={handleChange}>
             <label>Name</label>
@@ -203,7 +218,7 @@ const Subjects = () => {
           </form>
         </ModalSubject>
 
-        <ModalSubject isOpen={isOpen2} setIsOpen={setIsOpen2} titleModalUser="Subject" dispatch={handleSubmitCreate}>
+        <ModalSubject isOpen={isOpenCreate} setIsOpen={setIsOpenCreate} titleModalUser="Subject" dispatch={handleSubmitCreate}>
           <h2>Create Subject</h2>
           <form onChange={handleChange}>
             <label>Name</label>
@@ -214,6 +229,7 @@ const Subjects = () => {
             <input type='text' name='assignedTeacher' placeholder='Enter the assigned teacher' />
           </form>
         </ModalSubject>
+
     </div>
   );
 };

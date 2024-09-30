@@ -1,4 +1,4 @@
-import { GET_CURRICULUMUNIT, DETAIL_CURRICULUMUNIT, EMPTY_STATE, GET_USERS, GET_USER, DELETE_USER, SEARCH_USERS, DELETE_CURRICULUMUNIT } from './actions';
+import { GET_CURRICULUMUNIT, DETAIL_CURRICULUMUNIT, ADD_USERS_TO_CURRICULUM_UNIT, REMOVE_USER_FROM_CURRICULUM_UNIT, EMPTY_STATE, GET_USERS, GET_USER, DELETE_USER, SEARCH_USERS, DELETE_CURRICULUMUNIT } from './actions';
 
 const initialState = {
   curriculumUnit: [],
@@ -30,6 +30,37 @@ const reducer = (state = initialState, { type, payload }) => {
         curriculumUnit: deletedCurriculumUnit
       };
     };
+    case ADD_USERS_TO_CURRICULUM_UNIT:
+      return {
+        ...state,
+        units: {
+          ...state.units,
+          [action.payload.id]: {
+            ...state.units[action.payload.id],
+            users: [
+              ...(state.units[action.payload.id]?.users || []),
+              ...action.payload.userIds
+            ]
+          }
+        },
+        loading: false,
+        error: null
+      };
+    case REMOVE_USER_FROM_CURRICULUM_UNIT:
+      return {
+        ...state,
+        units: {
+          ...state.units,
+          [action.payload.id]: {
+            ...state.units[action.payload.id],
+            users: state.units[action.payload.id]?.users.filter(
+              userId => userId !== action.payload.userId
+            ) || []
+          }
+        },
+        loading: false,
+        error: null
+      };
     case EMPTY_STATE: {
       return {
         ...state,
