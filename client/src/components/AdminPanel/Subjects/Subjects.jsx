@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import './Subjects.scss';
 import ModalSubject from './ModalSubject';
 import ModalAddUser from './ModalAddUser';
+import ModalRemoveUser from './ModalRemoveUser';
 
 
-import { getUsers, getCurriculumUnit, detailCurriculumUnit, createCurriculumUnit, deleteCurriculumUnit, updateCurriculumUnit, removeUserFromCurriculumUnit, addUsersToCurriculumUnit } from '../../../redux/actions';
+import { getUsers, getCurriculumUnit, detailCurriculumUnit, createCurriculumUnit, deleteCurriculumUnit, updateCurriculumUnit} from '../../../redux/actions';
 import spinner from '../../../images/svg/spinner.svg';
 
 import swal from 'sweetalert';
@@ -23,6 +24,9 @@ import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import PeopleIcon from '@mui/icons-material/People';
 
 const Subjects = () => {
   const dispatch = useDispatch();
@@ -31,6 +35,7 @@ const Subjects = () => {
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [isOpenCreate, setIsOpenCreate] = useState(false);
   const [isOpenAddUser, setIsOpenAddUser] = useState(false); 
+  const [isOpenRemoveUser, setIsOpenRemoveUser] = useState(false); 
   const [currentUnitCurrId, setCurrentUnitCurrId] = useState(-1);
 
 
@@ -101,9 +106,14 @@ const Subjects = () => {
       });
   };
 
-  const handleClickUsers = (currentUnitCurrId) => {
+  const handleClickUsersAdd = (currentUnitCurrId) => {
     setCurrentUnitCurrId(currentUnitCurrId);
     setIsOpenAddUser(true);
+  }
+  
+  const handleClickUsersRemove = (currentUnitCurrId) => {
+    setCurrentUnitCurrId(currentUnitCurrId);
+    setIsOpenRemoveUser(true);
   }
   
 
@@ -193,7 +203,11 @@ const Subjects = () => {
                     <StyledTableCell align="center">{currUnit.assignedTeacher}</StyledTableCell>
                     <StyledTableCell align="center">{currUnit.createdAt}</StyledTableCell>
                     <StyledTableCell align="center">{currUnit.updatedAt}</StyledTableCell>
-                    <StyledTableCell align="center"><Button variant="contained" onClick={() => handleClickUsers(currUnit.id)}>EDITAR</Button></StyledTableCell>
+                    <StyledTableCell align="center">
+                      <PeopleIcon sx={{ cursor: 'pointer', fontSize: 20  }}/>
+                      <PersonAddIcon sx={{ cursor: 'pointer', fontSize: 20 }} onClick={() => handleClickUsersAdd(currUnit.id)}/>
+                      <PersonRemoveIcon sx={{ cursor: 'pointer', fontSize: 20 }} onClick={() => handleClickUsersRemove(currUnit.id)}/>
+                    </StyledTableCell>
                     <StyledTableCell align="center">
                       <EditIcon sx={{ cursor: 'pointer', fontSize: 20, marginRight: 1 }} title='Edit' onClick={() => handleClick(currUnit)} />
                       <DeleteIcon sx={{ cursor: 'pointer', fontSize: 20 }} title='Delete' onClick={() => dropCurrUnit(currUnit.id)} />
@@ -229,7 +243,8 @@ const Subjects = () => {
           </form>
         </ModalSubject>
 
-        <ModalAddUser IsOpen={isOpenAddUser} SetIsOpen={setIsOpenAddUser} Title="Edit users" CurrentUnitCurr={currUnits.filter((cu) => cu.id == currentUnitCurrId)} Users={users}/>
+        <ModalAddUser IsOpen={isOpenAddUser} SetIsOpen={setIsOpenAddUser} Title="Add users" CurrentUnitCurr={currUnits.filter((cu) => cu.id == currentUnitCurrId)} Users={users}/>
+        <ModalRemoveUser IsOpen={isOpenRemoveUser} SetIsOpen={setIsOpenRemoveUser} Title="Remove users" CurrentUnitCurr={currUnits.filter((cu) => cu.id == currentUnitCurrId)} Users={users}/>
 
 
     </div>

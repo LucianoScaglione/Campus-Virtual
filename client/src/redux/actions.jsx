@@ -8,7 +8,7 @@ export const DETAIL_CURRICULUMUNIT = "DETAIL_CURRICULUMUNIT";
 export const CREATE_CURRICULUMUNIT = "CREATE_CURRICULUMUNIT";
 export const DELETE_CURRICULUMUNIT = "DELETE_CURRICULUMUNIT";
 export const ADD_USERS_TO_CURRICULUM_UNIT = 'ADD_USERS_TO_CURRICULUM_UNIT';
-export const REMOVE_USER_FROM_CURRICULUM_UNIT = 'REMOVE_USER_FROM_CURRICULUM_UNIT';
+export const REMOVE_USERS_FROM_CURRICULUM_UNIT = 'REMOVE_USERS_FROM_CURRICULUM_UNIT';
 
 export const EMPTY_STATE = "EMPTY_STATE";
 
@@ -124,6 +124,7 @@ export const addUsersToCurriculumUnit = (id, userIds) => {
         const response = () => {
           if (res.status === 200) {
             setTimeout(() => {
+              window.location.reload();
             }, 3000);
           }
         };
@@ -132,34 +133,41 @@ export const addUsersToCurriculumUnit = (id, userIds) => {
   };
 };
 
-export const removeUserFromCurriculumUnit = (curriculumUnitId, userId) => {
+export const removeUsersFromCurriculumUnit = (curriculumUnitId, userIds) => {
   return (dispatch) => {
     dispatch({ type: 'SET_LOADING', payload: true });
 
-    return axios.post(`${backend}/curriculumunit/${curriculumUnitId}/remove-user`, { UserId: userId })
+    return axios.post(`${backend}/curriculumunit/${curriculumUnitId}/remove-users`, { UserIds: userIds })
       .then(res => {
         dispatch({ type: 'SET_LOADING', payload: false });
         if (res.status === 200) {
           dispatch({
-            type: 'REMOVE_USER_FROM_CURRICULUM_UNIT',
-            payload: { curriculumUnitId, userId }
+            type: 'REMOVE_USERS_FROM_CURRICULUM_UNIT',
+            payload: { curriculumUnitId, userIds }
           });
+          dispatch({
+            type: 'SET_SUCCESS',
+            payload: 'Users successfully removed from the curriculum unit'
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 3000);
         } else {
           throw new Error(res.data.message || 'Unexpected response from server');
         }
       })
       .catch(error => {
         dispatch({ type: 'SET_LOADING', payload: false });
-        const errorMessage = error.response && error.response.data && error.response.data.error
-          ? error.response.data.error
-          : error.message || 'An error occurred while removing the user';
+        const errorMessage = error.response && error.response.data
+          ? error.response.data
+          : error.message || 'An error occurred while removing the users';
         
         dispatch({ 
           type: 'SET_ERROR', 
           payload: errorMessage
         });
 
-        console.error('Error removing user:', error);
+        console.error('Error removing users:', error);
       });
   };
 };

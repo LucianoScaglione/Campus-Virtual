@@ -114,26 +114,36 @@ const addUsersToCurriculumUnit = async (req, res, next) => {
   };
 };
 
-const removeUserFromCurriculumUnit = async (req, res, next) => {
+const removeUsersFromCurriculumUnit = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { UserId } = req.body; 
+    const { UserIds } = req.body; 
+
+
     const curriculumUnit = await CurriculumUnit.findByPk(id);
     if (!curriculumUnit) {
       return res.status(404).send('Curriculum unit not found');
     }
-    const user = await Users.findByPk(UserId);
-    if (!user) {
-      return res.status(404).send('User not found');
+
+    const users = await Users.findAll({ where: { id: UserIds } });
+    if (users.length !== UserIds.length) {
+      return res.status(404).send('One or more users not found');
     }
-    const result = await curriculumUnit.removeUser(user);
-    if (result === 0) {
-      return res.status(400).send('User is not associated with this curriculum unit');
+
+    const associatedUsers = await curriculumUnit.getUsers();
+    const associatedUserIds = associatedUsers.map(user => user.id);
+
+    const notAssociatedUsers = UserIds.filter(userId => !associatedUserIds.includes(userId));
+    if (notAssociatedUsers.length > 0) {
+      return res.status(400).send('One or more users are not associated with this curriculum unit');
     }
-    res.status(200).send('User removed successfully from the curriculum unit');
+
+    await curriculumUnit.removeUsers(users);
+    
+    res.status(200).send(`Users removed successfully from the curriculum unit ${curriculumUnit.name}`);
   } catch (error) {
-    console.error('Error removing user from curriculum unit:', error);
-    res.status(500).send('An error occurred while removing the user from the curriculum unit');
+    console.error('Error removing users from curriculum unit:', error);
+    res.status(500).send('An error occurred while removing the users from the curriculum unit');
   }
 };
 
@@ -161,6 +171,6 @@ module.exports = {
   createCurriculumUnit,
   updateCurriculumUnit,
   addUsersToCurriculumUnit,
-  removeUserFromCurriculumUnit,
+  removeUsersFromCurriculumUnit,
   deleteCurriculumUnit
 }

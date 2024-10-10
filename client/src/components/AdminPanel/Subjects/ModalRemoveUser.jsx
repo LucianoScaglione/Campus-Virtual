@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { addUsersToCurriculumUnit } from '../../../redux/actions';
+import { removeUsersFromCurriculumUnit } from '../../../redux/actions';
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -22,22 +22,22 @@ const style = {
   color: "black"
 };
 
-export default function ModalAddUser({ IsOpen, SetIsOpen, Title, Users, CurrentUnitCurr = [] }) {
+export default function ModalRemoveUser({ IsOpen, SetIsOpen, Title, Users, CurrentUnitCurr = [] }) {
   const dispatch = useDispatch();
   const handleClose = () => SetIsOpen(false);
 
-  const [addedUsers,setAddedUsers] = useState([]);
+  const [addedRemovedUsers,setAddedRemovedUsers] = useState([]);
   //window.location.reload();
   const handleAdd = (id) => {
-    CurrentUnitCurr[0].Users.some(currUser => currUser.id === id) && !addedUsers.includes(id) ? null : setAddedUsers([...addedUsers, id]);
+    addedRemovedUsers.includes(id) ? null : setAddedRemovedUsers([...addedRemovedUsers, id]);
   }
 
   const handleRemove = (id) => {
-    setAddedUsers(addedUsers.filter(e => e !== id))
+    setAddedRemovedUsers(addedRemovedUsers.filter(e => e !== id))
   }
 
-  const handleAddToDb = () => {
-    dispatch(addUsersToCurriculumUnit(CurrentUnitCurr[0].id, addedUsers));
+  const handleRemoveFromDb = () => {
+    dispatch(removeUsersFromCurriculumUnit(CurrentUnitCurr[0].id, addedRemovedUsers));
   }
 
       // dispatch(addUsersToCurriculumUnit(CurrentUnitCurr[0].id, [Id]));
@@ -60,21 +60,23 @@ export default function ModalAddUser({ IsOpen, SetIsOpen, Title, Users, CurrentU
             </Typography>
             <div className='UsersContainer'>
               <div className='UsersInCurrUnit'>
+                
+
+                {CurrentUnitCurr[0].Users.map((user) => {
+                  return (
+                  !addedRemovedUsers.includes(user.id) &&
+                  <div className='UserCard' style={{ cursor: 'pointer'}} onClick={() => handleAdd(user.id)}>
+                    <Avatar>{user.name[0] + user.lastName[0]}</Avatar>
+                    <label>{user.name + " " + user.lastName}</label>
+                  </div>
+                  )
+                })}
+              </div>
+              <div className='RemoveZone'>
                 {Users.map((user) => {
                   return (
-                    !CurrentUnitCurr[0].Users.some(currUser => currUser.id === user.id) && !addedUsers.includes(user.id) &&
-                    <div className='UserCard' key={user.id} onClick={() => handleAdd(user.id)} style={{ cursor: 'pointer'}}>
-                      <Avatar>{user.name[0] + user.lastName[0]}</Avatar>
-                      <label>{user.name + " " + user.lastName}</label>
-                    </div>
-                  )
-                })}
-              </div>
-              <div className='AddZone'>
-              {Users.map((user) => {
-                  return (
-                    !CurrentUnitCurr[0].Users.some(currUser => currUser.id === user.id) && addedUsers.includes(user.id) &&
-                    <div className='UserCard' key={user.id} onClick={() => handleRemove(user.id)} style={{ cursor: 'pointer'}}>
+                    addedRemovedUsers.includes(user.id) &&
+                    <div className='UserCard' key={user.id} style={{ cursor: 'pointer'}} onClick={() => handleRemove(user.id)}>
                       <Avatar>{user.name[0] + user.lastName[0]}</Avatar>
                       <label>{user.name + " " + user.lastName}</label>
                     </div>
@@ -82,11 +84,11 @@ export default function ModalAddUser({ IsOpen, SetIsOpen, Title, Users, CurrentU
                 })}
               </div>
             </div>
-            
             <div className='ButtonContainer'>
-              <button onClick={handleAddToDb}>SEND</button>
+              <button onClick={handleRemoveFromDb}>SEND</button>
               <button onClick={handleClose}>EXIT</button>
             </div>
+            
           </Box>
         </Modal>
       ) : null}
