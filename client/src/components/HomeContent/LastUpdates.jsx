@@ -6,6 +6,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurriculumUnit } from '../../redux/actions';
 
+import { informationUser } from '../../redux/actions';
+
 
 
 function LastUpdates() {
@@ -18,6 +20,13 @@ function LastUpdates() {
   }, [dispatch, curriculumUnit.length])
 
 
+  const userData = informationUser().user
+
+  function inArray(target, array){
+    return array.some(user => user.id === target)
+  }
+
+
   return (
     <div className="CurrUnitViewerContent">
 
@@ -28,14 +37,20 @@ function LastUpdates() {
       {curriculumUnit.map((value, index) => {
         return (
           <div key={index}>
-            <Link to={`/curriculumUnit/${value.id}/news`}>
+
+            {
+            inArray(userData.id,value.Users) || userData.ranks == "Admin"
+            ? 
+            (<Link to={`/curriculumUnit/${value.id}/news`}>
               <div className='CurrUnitCard' key={value.id}>
                 <h2 className='CurrUnitTitle'>{value.name}</h2>
                 <div className='CurrUnitInfo'>
                   <span><b>Profesor asignado: </b>{value.assignedTeacher}</span>
                 </div>
               </div>
-            </Link>
+            </Link>)
+            : null}
+
           </div>
         );
       })}

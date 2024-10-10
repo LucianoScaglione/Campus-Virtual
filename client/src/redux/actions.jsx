@@ -7,6 +7,8 @@ export const GET_CURRICULUMUNIT = "GET_CURRICULUMUNIT";
 export const DETAIL_CURRICULUMUNIT = "DETAIL_CURRICULUMUNIT";
 export const CREATE_CURRICULUMUNIT = "CREATE_CURRICULUMUNIT";
 export const DELETE_CURRICULUMUNIT = "DELETE_CURRICULUMUNIT";
+export const ADD_USERS_TO_CURRICULUM_UNIT = 'ADD_USERS_TO_CURRICULUM_UNIT';
+export const REMOVE_USER_FROM_CURRICULUM_UNIT = 'REMOVE_USER_FROM_CURRICULUM_UNIT';
 
 export const EMPTY_STATE = "EMPTY_STATE";
 
@@ -57,7 +59,7 @@ export const createCurriculumUnit = (state) => {
         const response = () => {
           Swal.fire({
             icon: "success",
-            title: `${res.data.msg}`,
+            title: `${res.data}`,
             showConfirmButton: false,
             timer: 2000
           });
@@ -104,7 +106,7 @@ export const updateCurriculumUnit = (id, state) => {
         const response = () => {
           Swal.fire({
             icon: "success",
-            title: `${res.data.msg}`,
+            title: `${res.data}`,
             showConfirmButton: false,
             timer: 2000
           });
@@ -113,6 +115,60 @@ export const updateCurriculumUnit = (id, state) => {
               window.location.reload();
             }, 3000);
           };
+        };
+        response();
+      })
+      .catch(error => Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: `${error.response.data}`,
+      }));
+  };
+};
+
+export const addUsersToCurriculumUnit = (id, userIds) => {
+  return () => {
+    return axios.post(`${backend}/curriculumunit/${id}`, { UserId: userIds })
+      .then(res => {
+        const response = () => {
+          Swal.fire({
+            icon: "success",
+            title: `${res.data}`,
+            showConfirmButton: false,
+            timer: 2000
+          });
+          if (res.status === 200) {
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);
+          }
+        };
+        response();
+      })
+      .catch(error => Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: `${error.response.data}`,
+      }));
+  };
+};
+
+export const removeUserFromCurriculumUnit = (id, userId) => {
+  return () => {
+    return axios.delete(`${backend}/curriculumunit/remove/${id}`, { UserId: userId })
+      .then(res => {
+        const response = () => {
+          Swal.fire({
+            icon: "success",
+            title: `${res.data}`,
+            showConfirmButton: false,
+            timer: 2000
+          });
+          if (res.status === 200) {
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);
+          }
         };
         response();
       })
