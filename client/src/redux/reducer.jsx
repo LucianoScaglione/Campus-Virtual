@@ -1,4 +1,4 @@
-import { GET_CURRICULUMUNIT, DETAIL_CURRICULUMUNIT, EMPTY_STATE, GET_USERS, GET_USER, DELETE_USER, SEARCH_USERS, DELETE_CURRICULUMUNIT, GET_CURRICULUMUNITBYID, ADD_USERS_TO_CURRICULUM_UNIT, REMOVE_USER_FROM_CURRICULUM_UNIT } from './actions';
+import { GET_CURRICULUMUNIT, DETAIL_CURRICULUMUNIT, ADD_USERS_TO_CURRICULUM_UNIT, REMOVE_USERS_FROM_CURRICULUM_UNIT, EMPTY_STATE, GET_USERS, GET_USER, DELETE_USER, SEARCH_USERS, DELETE_CURRICULUMUNIT, SEARCH_UNIT_CURR } from './actions';
 
 const initialState = {
   curriculumUnit: [],
@@ -6,7 +6,9 @@ const initialState = {
   curriculumUnitById: [],
   detailCurriculumUnit: {},
   users: [],
-  user: []
+  user: [],
+  loading: false,
+  error: null
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -53,21 +55,23 @@ const reducer = (state = initialState, { type, payload }) => {
         loading: false,
         error: null
       };
-    case REMOVE_USER_FROM_CURRICULUM_UNIT:
+    case 'REMOVE_USERS_FROM_CURRICULUM_UNIT':
       return {
         ...state,
-        units: {
-          ...state.units,
-          [action.payload.id]: {
-            ...state.units[action.payload.id],
-            users: state.units[action.payload.id]?.users.filter(
-              userId => userId !== action.payload.userId
-            ) || []
-          }
-        },
+        curriculumUnits: state.curriculumUnits.map(unit =>
+          unit.id === action.payload.curriculumUnitId
+            ? { ...unit, users: unit.users.filter(user => user.id !== action.payload.userId) }
+            : unit
+        ),
         loading: false,
         error: null
       };
+    case SEARCH_UNIT_CURR: {
+      return {
+        ...state,
+        users: payload
+      };
+    };
     case EMPTY_STATE: {
       return {
         ...state,

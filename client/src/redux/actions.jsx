@@ -8,7 +8,8 @@ export const DETAIL_CURRICULUMUNIT = "DETAIL_CURRICULUMUNIT";
 export const CREATE_CURRICULUMUNIT = "CREATE_CURRICULUMUNIT";
 export const DELETE_CURRICULUMUNIT = "DELETE_CURRICULUMUNIT";
 export const ADD_USERS_TO_CURRICULUM_UNIT = 'ADD_USERS_TO_CURRICULUM_UNIT';
-export const REMOVE_USER_FROM_CURRICULUM_UNIT = 'REMOVE_USER_FROM_CURRICULUM_UNIT';
+export const REMOVE_USERS_FROM_CURRICULUM_UNIT = 'REMOVE_USERS_FROM_CURRICULUM_UNIT';
+export const SEARCH_UNIT_CURR = "SEARCH_UNIT_CURR"
 
 export const EMPTY_STATE = "EMPTY_STATE";
 
@@ -131,12 +132,6 @@ export const addUsersToCurriculumUnit = (id, userIds) => {
     return axios.post(`${backend}/curriculumunit/${id}`, { UserId: userIds })
       .then(res => {
         const response = () => {
-          Swal.fire({
-            icon: "success",
-            title: `${res.data}`,
-            showConfirmButton: false,
-            timer: 2000
-          });
           if (res.status === 200) {
             setTimeout(() => {
               window.location.reload();
@@ -145,33 +140,53 @@ export const addUsersToCurriculumUnit = (id, userIds) => {
         };
         response();
       })
-      .catch(error => Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: `${error.response.data}`,
-      }));
   };
 };
 
-export const removeUserFromCurriculumUnit = (id, userId) => {
-  return () => {
-    return axios.delete(`${backend}/curriculumunit/remove/${id}`, { UserId: userId })
+export const removeUsersFromCurriculumUnit = (curriculumUnitId, userIds) => {
+  return (dispatch) => {
+    dispatch({ type: 'SET_LOADING', payload: true });
+
+    return axios.post(`${backend}/curriculumunit/${curriculumUnitId}/remove-users`, { UserIds: userIds })
       .then(res => {
-        const response = () => {
-          Swal.fire({
-            icon: "success",
-            title: `${res.data}`,
-            showConfirmButton: false,
-            timer: 2000
+        dispatch({ type: 'SET_LOADING', payload: false });
+        if (res.status === 200) {
+          dispatch({
+            type: 'REMOVE_USERS_FROM_CURRICULUM_UNIT',
+            payload: { curriculumUnitId, userIds }
           });
-          if (res.status === 200) {
-            setTimeout(() => {
-              window.location.reload();
-            }, 3000);
-          }
-        };
-        response();
+          dispatch({
+            type: 'SET_SUCCESS',
+            payload: 'Users successfully removed from the curriculum unit'
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 3000);
+        } else {
+          throw new Error(res.data.message || 'Unexpected response from server');
+        }
       })
+      .catch(error => {
+        dispatch({ type: 'SET_LOADING', payload: false });
+        const errorMessage = error.response && error.response.data
+          ? error.response.data
+          : error.message || 'An error occurred while removing the users';
+        
+        dispatch({ 
+          type: 'SET_ERROR', 
+          payload: errorMessage
+        });
+
+        console.error('Error removing users:', error);
+      });
+  };
+};
+
+
+export const searchUnitCurr = (name) => {
+  return (dispatch) => {
+    return axios.get(`${backend}/curriculumunit?name=${name}`)
+      .then(res => dispatch({ type: SEARCH_UNIT_CURR, payload: res.data }))
       .catch(error => Swal.fire({
         icon: "error",
         title: "Error",

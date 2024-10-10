@@ -2,9 +2,16 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const cors = require('cors');
 
 const UsersRouters = require('./routes/Users.js');
 const CurriculumUnitRouters = require('./routes/CurriculumUnit.js');
+
+const corsOptions = {
+  origin: 'http://localhost:5173',
+  optionsSuccessStatus: 200
+};
+
 
 require('./db.js');
 
@@ -33,5 +40,7 @@ server.use((err, req, res, next) => {
 
 server.use('/users', UsersRouters);
 server.use('/curriculumunit', CurriculumUnitRouters);
+server.use(cors(corsOptions));
+server.use(express.json());
 
 module.exports = server;
