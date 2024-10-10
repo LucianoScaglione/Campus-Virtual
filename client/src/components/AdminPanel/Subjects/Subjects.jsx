@@ -7,7 +7,7 @@ import ModalAddUser from './ModalAddUser';
 import ModalRemoveUser from './ModalRemoveUser';
 
 
-import { getUsers, getCurriculumUnit, detailCurriculumUnit, createCurriculumUnit, deleteCurriculumUnit, updateCurriculumUnit} from '../../../redux/actions';
+import { getUsers, getCurriculumUnit, detailCurriculumUnit, createCurriculumUnit, deleteCurriculumUnit, updateCurriculumUnit, searchUnitCurr} from '../../../redux/actions';
 import spinner from '../../../images/svg/spinner.svg';
 
 import swal from 'sweetalert';
@@ -27,15 +27,18 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import PeopleIcon from '@mui/icons-material/People';
+import ModalListUsers from './ModalListUsers';
 
 const Subjects = () => {
   const dispatch = useDispatch();
 
   const [loader, setLoader] = useState(true);
+  const [search, setSearch] = useState('')
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [isOpenCreate, setIsOpenCreate] = useState(false);
   const [isOpenAddUser, setIsOpenAddUser] = useState(false); 
   const [isOpenRemoveUser, setIsOpenRemoveUser] = useState(false); 
+  const [isOpenListUsers, setIsOpenListUsers] = useState(false); 
   const [currentUnitCurrId, setCurrentUnitCurrId] = useState(-1);
 
 
@@ -115,7 +118,17 @@ const Subjects = () => {
     setCurrentUnitCurrId(currentUnitCurrId);
     setIsOpenRemoveUser(true);
   }
-  
+
+  const handleClickListUsers = (currentUnitCurrId) => {
+    setCurrentUnitCurrId(currentUnitCurrId);
+    setIsOpenListUsers(true);
+  }
+
+  const handleChangeSearch = (e) => {
+    e.preventDefault();
+    setSearch(e.target.value);
+    dispatch(searchUnitCurr(e.target.value));
+  };
 
   if (loader) {
     return <img src={spinner} className='spinner' alt='' />
@@ -163,7 +176,7 @@ const Subjects = () => {
               fullWidth
               InputProps={{ style: { color: '#ffffff' } }}
               InputLabelProps={{ style: { color: '#ffffff' } }}
-              // onChange={handleChangeSearch}
+              onChange={handleChangeSearch}
             />
             <svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none" /><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" /></svg>
           </form>
@@ -204,7 +217,7 @@ const Subjects = () => {
                     <StyledTableCell align="center">{currUnit.createdAt}</StyledTableCell>
                     <StyledTableCell align="center">{currUnit.updatedAt}</StyledTableCell>
                     <StyledTableCell align="center">
-                      <PeopleIcon sx={{ cursor: 'pointer', fontSize: 20  }}/>
+                      <PeopleIcon sx={{ cursor: 'pointer', fontSize: 20  }} onClick={() => handleClickListUsers(currUnit.id)}/>
                       <PersonAddIcon sx={{ cursor: 'pointer', fontSize: 20 }} onClick={() => handleClickUsersAdd(currUnit.id)}/>
                       <PersonRemoveIcon sx={{ cursor: 'pointer', fontSize: 20 }} onClick={() => handleClickUsersRemove(currUnit.id)}/>
                     </StyledTableCell>
@@ -245,7 +258,7 @@ const Subjects = () => {
 
         <ModalAddUser IsOpen={isOpenAddUser} SetIsOpen={setIsOpenAddUser} Title="Add users" CurrentUnitCurr={currUnits.filter((cu) => cu.id == currentUnitCurrId)} Users={users}/>
         <ModalRemoveUser IsOpen={isOpenRemoveUser} SetIsOpen={setIsOpenRemoveUser} Title="Remove users" CurrentUnitCurr={currUnits.filter((cu) => cu.id == currentUnitCurrId)} Users={users}/>
-
+        <ModalListUsers IsOpen={isOpenListUsers} SetIsOpen={setIsOpenListUsers} Title="User list" CurrentUnitCurr={currUnits.filter((cu) => cu.id == currentUnitCurrId)} Users={users}/>
 
     </div>
   );

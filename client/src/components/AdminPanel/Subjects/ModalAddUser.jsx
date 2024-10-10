@@ -17,6 +17,7 @@ const style = {
   width: 400,
   bgcolor: 'background.paper',
   border: '2px solid #000',
+  borderRadius: '16px',
   boxShadow: 24,
   p: 4,
   color: "black"
@@ -25,9 +26,8 @@ const style = {
 export default function ModalAddUser({ IsOpen, SetIsOpen, Title, Users, CurrentUnitCurr = [] }) {
   const dispatch = useDispatch();
   const handleClose = () => SetIsOpen(false);
-
   const [addedUsers,setAddedUsers] = useState([]);
-  //window.location.reload();
+
   const handleAdd = (id) => {
     CurrentUnitCurr[0].Users.some(currUser => currUser.id === id) && !addedUsers.includes(id) ? null : setAddedUsers([...addedUsers, id]);
   }
@@ -39,11 +39,6 @@ export default function ModalAddUser({ IsOpen, SetIsOpen, Title, Users, CurrentU
   const handleAddToDb = () => {
     dispatch(addUsersToCurriculumUnit(CurrentUnitCurr[0].id, addedUsers));
   }
-
-      // dispatch(addUsersToCurriculumUnit(CurrentUnitCurr[0].id, [Id]));
-
-      // dispatch(removeUserFromCurriculumUnit(CurrentUnitCurr[0].id, Id));
-
 
   return (
     <div>
@@ -59,7 +54,7 @@ export default function ModalAddUser({ IsOpen, SetIsOpen, Title, Users, CurrentU
               {Title}
             </Typography>
             <div className='UsersContainer'>
-              <div className='UsersInCurrUnit'>
+              <div className='UsersListContainer UsersInCurrUnit'>
                 {Users.map((user) => {
                   return (
                     !CurrentUnitCurr[0].Users.some(currUser => currUser.id === user.id) && !addedUsers.includes(user.id) &&
@@ -70,7 +65,7 @@ export default function ModalAddUser({ IsOpen, SetIsOpen, Title, Users, CurrentU
                   )
                 })}
               </div>
-              <div className='AddZone'>
+              <div className='UsersListContainer AddZone'>
               {Users.map((user) => {
                   return (
                     !CurrentUnitCurr[0].Users.some(currUser => currUser.id === user.id) && addedUsers.includes(user.id) &&

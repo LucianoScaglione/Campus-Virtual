@@ -17,6 +17,7 @@ const style = {
   width: 400,
   bgcolor: 'background.paper',
   border: '2px solid #000',
+  borderRadius: '16px',
   boxShadow: 24,
   p: 4,
   color: "black"
@@ -25,9 +26,8 @@ const style = {
 export default function ModalRemoveUser({ IsOpen, SetIsOpen, Title, Users, CurrentUnitCurr = [] }) {
   const dispatch = useDispatch();
   const handleClose = () => SetIsOpen(false);
-
   const [addedRemovedUsers,setAddedRemovedUsers] = useState([]);
-  //window.location.reload();
+
   const handleAdd = (id) => {
     addedRemovedUsers.includes(id) ? null : setAddedRemovedUsers([...addedRemovedUsers, id]);
   }
@@ -39,11 +39,6 @@ export default function ModalRemoveUser({ IsOpen, SetIsOpen, Title, Users, Curre
   const handleRemoveFromDb = () => {
     dispatch(removeUsersFromCurriculumUnit(CurrentUnitCurr[0].id, addedRemovedUsers));
   }
-
-      // dispatch(addUsersToCurriculumUnit(CurrentUnitCurr[0].id, [Id]));
-
-      // dispatch(removeUserFromCurriculumUnit(CurrentUnitCurr[0].id, Id));
-
 
   return (
     <div>
@@ -59,9 +54,7 @@ export default function ModalRemoveUser({ IsOpen, SetIsOpen, Title, Users, Curre
               {Title}
             </Typography>
             <div className='UsersContainer'>
-              <div className='UsersInCurrUnit'>
-                
-
+              <div className='UsersListContainer UsersInCurrUnit'>
                 {CurrentUnitCurr[0].Users.map((user) => {
                   return (
                   !addedRemovedUsers.includes(user.id) &&
@@ -72,7 +65,7 @@ export default function ModalRemoveUser({ IsOpen, SetIsOpen, Title, Users, Curre
                   )
                 })}
               </div>
-              <div className='RemoveZone'>
+              <div className='UsersListContainer RemoveZone'>
                 {Users.map((user) => {
                   return (
                     addedRemovedUsers.includes(user.id) &&
@@ -88,7 +81,6 @@ export default function ModalRemoveUser({ IsOpen, SetIsOpen, Title, Users, Curre
               <button onClick={handleRemoveFromDb}>SEND</button>
               <button onClick={handleClose}>EXIT</button>
             </div>
-            
           </Box>
         </Modal>
       ) : null}

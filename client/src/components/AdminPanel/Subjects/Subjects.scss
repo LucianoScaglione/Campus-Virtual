@@ -68,14 +68,17 @@
   flex-direction: row;
   margin: 5%;
 }
-.UsersContainer > div {
+
+.UsersListContainer {
   width: 50%;
-}
-.UsersInCurrUnit {
-  background-color: #dfdfdf;
   max-height: 60vh;
   overflow-y: scroll;
 }
+
+.AllUsersListContainer {
+  width: 100%;
+}
+
 .UserCard {
   display: flex;
   flex-direction: row;
@@ -83,17 +86,19 @@
   gap: 5%;
   margin: 5%;
 }
+
+.UsersInCurrUnit {
+  background-color: #dfdfdf;
+}
+
 .RemoveZone {
   background-color: rgb(255, 167, 167);
-  max-height: 60vh;
-  overflow-y: scroll;
 }
 
 .AddZone {
   background-color: rgb(167, 255, 167);
-  max-height: 60vh;
-  overflow-y: scroll;
 }
+
 .ButtonContainer {
   display: flex;
   flex-direction: row;

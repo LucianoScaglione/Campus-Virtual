@@ -9,6 +9,7 @@ export const CREATE_CURRICULUMUNIT = "CREATE_CURRICULUMUNIT";
 export const DELETE_CURRICULUMUNIT = "DELETE_CURRICULUMUNIT";
 export const ADD_USERS_TO_CURRICULUM_UNIT = 'ADD_USERS_TO_CURRICULUM_UNIT';
 export const REMOVE_USERS_FROM_CURRICULUM_UNIT = 'REMOVE_USERS_FROM_CURRICULUM_UNIT';
+export const SEARCH_UNIT_CURR = "SEARCH_UNIT_CURR"
 
 export const EMPTY_STATE = "EMPTY_STATE";
 
@@ -169,6 +170,19 @@ export const removeUsersFromCurriculumUnit = (curriculumUnitId, userIds) => {
 
         console.error('Error removing users:', error);
       });
+  };
+};
+
+
+export const searchUnitCurr = (name) => {
+  return (dispatch) => {
+    return axios.get(`${backend}/curriculumunit?name=${name}`)
+      .then(res => dispatch({ type: SEARCH_UNIT_CURR, payload: res.data }))
+      .catch(error => Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: `${error.response.data}`,
+      }));
   };
 };
 
