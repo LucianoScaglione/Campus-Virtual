@@ -41,7 +41,7 @@ export default function ModalListUsers({ IsOpen, SetIsOpen, Title, Users, Curren
               <div className='UsersListContainer UsersInCurrUnit AllUsersListContainer'>
                 {Users.map((user) => {
                   return (
-                    !CurrentUnitCurr[0].Users.some(currUser => currUser.id === user.id) &&
+                    CurrentUnitCurr[0].Users.some(currUser => currUser.id === user.id) &&
                     <div className='UserCard' key={user.id}>
                       <Avatar>{user.name[0] + user.lastName[0]}</Avatar>
                       <label>{user.name + " " + user.lastName}</label>

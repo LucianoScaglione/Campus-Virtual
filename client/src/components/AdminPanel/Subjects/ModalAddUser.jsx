@@ -37,6 +37,7 @@ export default function ModalAddUser({ IsOpen, SetIsOpen, Title, Users, CurrentU
   }
 
   const handleAddToDb = () => {
+    SetIsOpen(false)
     dispatch(addUsersToCurriculumUnit(CurrentUnitCurr[0].id, addedUsers));
   }
 
