@@ -25,7 +25,21 @@ const getPublicationById = async (req, res, next) => {
     }
 };
 
+const createPublication = async (req, res, next) => {
+    try {
+    const { title, description } = req.body;
+    if (!title || !description) {
+        return res.status(400).send('Title and Description fields must be completed.');
+    }
+    const newPublication = await Publications.create({ title, description });
+    res.status(201).json(newPublication);
+    } catch (error) {
+    next(error);
+    }
+};
+
 module.exports ={
     getPublications,
-    getPublicationById
+    getPublicationById,
+    createPublication
 }
