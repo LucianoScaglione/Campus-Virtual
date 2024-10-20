@@ -1,0 +1,1 @@
+const { Publications } = require('../db');
