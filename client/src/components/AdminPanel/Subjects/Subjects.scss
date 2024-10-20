@@ -62,3 +62,48 @@
     margin-top: 10px;
   }
 }
+
+.UsersContainer {
+  display: flex;
+  flex-direction: row;
+  margin: 5%;
+}
+
+.UsersListContainer {
+  width: 50%;
+  max-height: 60vh;
+  overflow-y: scroll;
+}
+
+.AllUsersListContainer {
+  width: 100%;
+}
+
+.UserCard {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5%;
+  margin: 5%;
+}
+
+.UsersInCurrUnit {
+  background-color: #dfdfdf;
+}
+
+.RemoveZone {
+  background-color: rgb(255, 167, 167);
+}
+
+.AddZone {
+  background-color: rgb(167, 255, 167);
+}
+
+.ButtonContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 5%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}

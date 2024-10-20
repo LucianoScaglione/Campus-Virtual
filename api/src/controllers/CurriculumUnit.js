@@ -114,25 +114,37 @@ const addUsersToCurriculumUnit = async (req, res, next) => {
   };
 };
 
-const removeUserFromCurriculumUnit = async (req, res, next) => {
+const removeUsersFromCurriculumUnit = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { UserId } = req.body;
+    const { UserIds } = req.body; 
 
-    const findCurriculumUnit = await CurriculumUnit.findByPk(id);
 
-    if (!findCurriculumUnit) {
+    const curriculumUnit = await CurriculumUnit.findByPk(id);
+    if (!curriculumUnit) {
       return res.status(404).send('Curriculum unit not found');
-    };
+    }
 
-    // Eliminar el usuario de la unidad curricular
-    await findCurriculumUnit.removeUsers(UserId);
+    const users = await Users.findAll({ where: { id: UserIds } });
+    if (users.length !== UserIds.length) {
+      return res.status(404).send('One or more users not found');
+    }
 
-    res.status(200).send('User removed successfully');
+    const associatedUsers = await curriculumUnit.getUsers();
+    const associatedUserIds = associatedUsers.map(user => user.id);
 
+    const notAssociatedUsers = UserIds.filter(userId => !associatedUserIds.includes(userId));
+    if (notAssociatedUsers.length > 0) {
+      return res.status(400).send('One or more users are not associated with this curriculum unit');
+    }
+
+    await curriculumUnit.removeUsers(users);
+    
+    res.status(200).send(`Users removed successfully from the curriculum unit ${curriculumUnit.name}`);
   } catch (error) {
-    next(error);
-  };
+    console.error('Error removing users from curriculum unit:', error);
+    res.status(500).send('An error occurred while removing the users from the curriculum unit');
+  }
 };
 
 const deleteCurriculumUnit = async (req, res, next) => {
@@ -159,6 +171,6 @@ module.exports = {
   createCurriculumUnit,
   updateCurriculumUnit,
   addUsersToCurriculumUnit,
-  removeUserFromCurriculumUnit,
+  removeUsersFromCurriculumUnit,
   deleteCurriculumUnit
 }

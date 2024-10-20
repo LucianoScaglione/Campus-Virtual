@@ -3,9 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import './Subjects.scss';
 import ModalSubject from './ModalSubject';
+import ModalAddUser from './ModalAddUser';
+import ModalRemoveUser from './ModalRemoveUser';
 
-import { createUser, deleteUser, getUser, getUsers, searchUsers, updateUser } from '../../../redux/actions';
-import { getCurriculumUnit, detailCurriculumUnit, createCurriculumUnit, deleteCurriculumUnit, updateCurriculumUnit } from '../../../redux/actions';
+
+import { getUsers, getCurriculumUnit, detailCurriculumUnit, createCurriculumUnit, deleteCurriculumUnit, updateCurriculumUnit, searchUnitCurr} from '../../../redux/actions';
 import spinner from '../../../images/svg/spinner.svg';
 
 import swal from 'sweetalert';
@@ -22,13 +24,23 @@ import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import PeopleIcon from '@mui/icons-material/People';
+import ModalListUsers from './ModalListUsers';
 
 const Subjects = () => {
   const dispatch = useDispatch();
 
   const [loader, setLoader] = useState(true);
-  const [isOpen, setIsOpen] = useState(false);
-  const [isOpen2, setIsOpen2] = useState(false);
+  const [search, setSearch] = useState('')
+  const [isOpenEdit, setIsOpenEdit] = useState(false);
+  const [isOpenCreate, setIsOpenCreate] = useState(false);
+  const [isOpenAddUser, setIsOpenAddUser] = useState(false); 
+  const [isOpenRemoveUser, setIsOpenRemoveUser] = useState(false); 
+  const [isOpenListUsers, setIsOpenListUsers] = useState(false); 
+  const [currentUnitCurrId, setCurrentUnitCurrId] = useState(-1);
+
 
   const clearInput = {
     name: "",
@@ -59,9 +71,15 @@ const Subjects = () => {
     });
   }, [currUnit]);
 
+  const users = useSelector(state => state.users);
+  useEffect(() => {
+    dispatch(getUsers()).then(setLoader(false));
+  }, [dispatch]);
+
 
   const handleClick = (id) => {
-    setIsOpen(true);
+    console.log("done")
+    setIsOpenEdit(true);
     dispatch(detailCurriculumUnit(id));
   };
   const handleChange = (e) => {
@@ -90,7 +108,27 @@ const Subjects = () => {
         };
       });
   };
+
+  const handleClickUsersAdd = (currentUnitCurrId) => {
+    setCurrentUnitCurrId(currentUnitCurrId);
+    setIsOpenAddUser(true);
+  }
   
+  const handleClickUsersRemove = (currentUnitCurrId) => {
+    setCurrentUnitCurrId(currentUnitCurrId);
+    setIsOpenRemoveUser(true);
+  }
+
+  const handleClickListUsers = (currentUnitCurrId) => {
+    setCurrentUnitCurrId(currentUnitCurrId);
+    setIsOpenListUsers(true);
+  }
+
+  const handleChangeSearch = (e) => {
+    e.preventDefault();
+    setSearch(e.target.value);
+    dispatch(searchUnitCurr(e.target.value));
+  };
 
   if (loader) {
     return <img src={spinner} className='spinner' alt='' />
@@ -121,12 +159,13 @@ const Subjects = () => {
     },
   }));
 
+
   return (
     <div>
 
       <div className='upperContainer'>
         <Button variant="text" onClick={() => dispatch(getCurriculumUnit())}>All Subjects</Button>
-        <Button variant="contained" onClick={() => setIsOpen2(true)}>Create Subject</Button>
+        <Button variant="contained" onClick={() => setIsOpenCreate(true)}>Create Subject</Button>
         <div className='searchContainer'>
           <form>
             <TextField
@@ -137,7 +176,7 @@ const Subjects = () => {
               fullWidth
               InputProps={{ style: { color: '#ffffff' } }}
               InputLabelProps={{ style: { color: '#ffffff' } }}
-              // onChange={handleChangeSearch}
+              onChange={handleChangeSearch}
             />
             <svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none" /><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" /></svg>
           </form>
@@ -152,10 +191,9 @@ const Subjects = () => {
                 <StyledTableCell align="center">NAME</StyledTableCell>
                 <StyledTableCell align="center">DESCRIPTION</StyledTableCell>
                 <StyledTableCell align="center">ASSIGNED TEACHER</StyledTableCell>
-                <StyledTableCell align="center">CREATED AT</StyledTableCell>
-                <StyledTableCell align="center">UPDATED AT</StyledTableCell>
+                <StyledTableCell align="center">CREATED</StyledTableCell>
+                <StyledTableCell align="center">UPDATED</StyledTableCell>
                 <StyledTableCell align="center">USERS</StyledTableCell>
-                <StyledTableCell align="center">ACTIVE</StyledTableCell>
                 <StyledTableCell align="center">ACTIONS</StyledTableCell>
               </TableRow>
             </TableHead>
@@ -178,11 +216,14 @@ const Subjects = () => {
                     <StyledTableCell align="center">{currUnit.assignedTeacher}</StyledTableCell>
                     <StyledTableCell align="center">{currUnit.createdAt}</StyledTableCell>
                     <StyledTableCell align="center">{currUnit.updatedAt}</StyledTableCell>
-                    <StyledTableCell align="center">not done</StyledTableCell>
-                    <StyledTableCell align="center">UNDEFINED</StyledTableCell>
                     <StyledTableCell align="center">
-                      <EditIcon sx={{ cursor: 'pointer', fontSize: 20, marginRight: 1 }} title='Edit' onClick={() => handleClick(currUnit.id)} />
-                      <DeleteIcon sx={{ cursor: 'pointer', fontSize: 20 }} title='Delete' onClick={() => dropCurrUnit(currUnit.id)} t />
+                      <PeopleIcon sx={{ cursor: 'pointer', fontSize: 20  }} onClick={() => handleClickListUsers(currUnit.id)}/>
+                      <PersonAddIcon sx={{ cursor: 'pointer', fontSize: 20 }} onClick={() => handleClickUsersAdd(currUnit.id)}/>
+                      <PersonRemoveIcon sx={{ cursor: 'pointer', fontSize: 20 }} onClick={() => handleClickUsersRemove(currUnit.id)}/>
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <EditIcon sx={{ cursor: 'pointer', fontSize: 20, marginRight: 1 }} title='Edit' onClick={() => handleClick(currUnit)} />
+                      <DeleteIcon sx={{ cursor: 'pointer', fontSize: 20 }} title='Delete' onClick={() => dropCurrUnit(currUnit.id)} />
                     </StyledTableCell>
                   </StyledTableRow>
                 ))
@@ -191,7 +232,7 @@ const Subjects = () => {
           </Table>
         </TableContainer>
         
-        <ModalSubject isOpen={isOpen} setIsOpen={setIsOpen} titleModalUser="Subjects" dispatch={handleSubmitEdit}>
+        <ModalSubject isOpen={isOpenEdit} setIsOpen={setIsOpenEdit} titleModalUser="Subjects" dispatch={handleSubmitEdit}>
           <h2>Edit Subject</h2>
           <form onChange={handleChange}>
             <label>Name</label>
@@ -203,7 +244,7 @@ const Subjects = () => {
           </form>
         </ModalSubject>
 
-        <ModalSubject isOpen={isOpen2} setIsOpen={setIsOpen2} titleModalUser="Subject" dispatch={handleSubmitCreate}>
+        <ModalSubject isOpen={isOpenCreate} setIsOpen={setIsOpenCreate} titleModalUser="Subject" dispatch={handleSubmitCreate}>
           <h2>Create Subject</h2>
           <form onChange={handleChange}>
             <label>Name</label>
@@ -214,6 +255,11 @@ const Subjects = () => {
             <input type='text' name='assignedTeacher' placeholder='Enter the assigned teacher' />
           </form>
         </ModalSubject>
+
+        <ModalAddUser IsOpen={isOpenAddUser} SetIsOpen={setIsOpenAddUser} Title="Add users" CurrentUnitCurr={currUnits.filter((cu) => cu.id == currentUnitCurrId)} Users={users}/>
+        <ModalRemoveUser IsOpen={isOpenRemoveUser} SetIsOpen={setIsOpenRemoveUser} Title="Remove users" CurrentUnitCurr={currUnits.filter((cu) => cu.id == currentUnitCurrId)} Users={users}/>
+        <ModalListUsers IsOpen={isOpenListUsers} SetIsOpen={setIsOpenListUsers} Title="User list" CurrentUnitCurr={currUnits.filter((cu) => cu.id == currentUnitCurrId)} Users={users}/>
+
     </div>
   );
 };

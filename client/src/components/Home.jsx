@@ -17,7 +17,7 @@ const Home = () => {
     !curriculumUnit.length &&
       dispatch(getCurriculumUnit());
   }, [dispatch, curriculumUnit.length])
-
+  console.log(curriculumUnit)
   return (
     <div className='Home'>
 
