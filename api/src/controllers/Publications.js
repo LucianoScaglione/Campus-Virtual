@@ -58,9 +58,26 @@ const updatePublication = async (req, res, next) => {
     }
 };
 
+const deletePublication = async (req, res, next) => {
+    try {
+    const { id } = req.params;
+    const publication = await Publications.findByPk(id);
+    if (!publication) {
+        return res.status(404).send('There is no publication with that ID');
+    }
+
+    await publication.destroy();
+    res.status(200).send('Publication deleted successfully');
+    } catch (error) {
+    next(error);
+    }
+};
+
+
 module.exports ={
     getPublications,
     getPublicationById,
     createPublication,
-    updatePublication
+    updatePublication,
+    deletePublication
 }
