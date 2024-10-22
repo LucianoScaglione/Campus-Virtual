@@ -132,6 +132,12 @@ export const addUsersToCurriculumUnit = (id, userIds) => {
     return axios.post(`${backend}/curriculumunit/${id}`, { UserId: userIds })
       .then(res => {
         const response = () => {
+          Swal.fire({
+            icon: "success",
+            title: `${res.data}`,
+            showConfirmButton: false,
+            timer: 2000
+          });
           if (res.status === 200) {
             setTimeout(() => {
               window.location.reload();
@@ -149,16 +155,19 @@ export const removeUsersFromCurriculumUnit = (curriculumUnitId, userIds) => {
 
     return axios.post(`${backend}/curriculumunit/${curriculumUnitId}/remove-users`, { UserIds: userIds })
       .then(res => {
-        dispatch({ type: 'SET_LOADING', payload: false });
+
+        Swal.fire({
+          icon: "success",
+          title: `${res.data}`,
+          showConfirmButton: false,
+          timer: 2000
+        });
         if (res.status === 200) {
           dispatch({
             type: 'REMOVE_USERS_FROM_CURRICULUM_UNIT',
             payload: { curriculumUnitId, userIds }
           });
-          dispatch({
-            type: 'SET_SUCCESS',
-            payload: 'Users successfully removed from the curriculum unit'
-          });
+
           setTimeout(() => {
             window.location.reload();
           }, 3000);

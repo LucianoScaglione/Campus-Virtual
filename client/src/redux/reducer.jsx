@@ -3,6 +3,7 @@ import { GET_CURRICULUMUNIT, DETAIL_CURRICULUMUNIT, ADD_USERS_TO_CURRICULUM_UNIT
 const initialState = {
   curriculumUnit: [],
   curriculumUnitCopy: [],
+  curriculumUnits: [],
   curriculumUnitById: [],
   detailCurriculumUnit: {},
   users: [],

@@ -37,6 +37,7 @@ export default function ModalRemoveUser({ IsOpen, SetIsOpen, Title, Users, Curre
   }
 
   const handleRemoveFromDb = () => {
+    SetIsOpen(false)
     dispatch(removeUsersFromCurriculumUnit(CurrentUnitCurr[0].id, addedRemovedUsers));
   }
 
