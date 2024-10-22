@@ -38,8 +38,29 @@ const createPublication = async (req, res, next) => {
     }
 };
 
+const updatePublication = async (req, res, next) => {
+    try {
+    const { id } = req.params;
+    const { title, description } = req.body;
+    const publication = await Publications.findByPk(id);
+
+    if (!publication) {
+        return res.status(404).send('There is no publication with that ID');
+    }
+    await publication.update({
+        title: title || publication.title,
+        description: description || publication.description
+    });
+
+    res.status(200).json({ msg: 'Publication updated succesfully.', publication });
+    } catch (error) {
+    next(error);
+    }
+};
+
 module.exports ={
     getPublications,
     getPublicationById,
-    createPublication
+    createPublication,
+    updatePublication
 }
