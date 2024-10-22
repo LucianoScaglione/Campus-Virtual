@@ -17,6 +17,7 @@ export const GET_USERS = "GET_USERS";
 export const GET_USER = "GET_USER";
 export const DELETE_USER = "DELETE_USER";
 export const SEARCH_USERS = "SEARCH_USERS";
+export const GET_CURRICULUMUNITBYID = "GET_CURRICULUMUNITBYID";
 
 
 
@@ -32,6 +33,14 @@ export const getCurriculumUnit = () => {
   return (dispatch) => {
     return axios.get(`${backend}/curriculumunit`)
       .then(res => dispatch({ type: GET_CURRICULUMUNIT, payload: res.data }))
+      .catch(error => console.log(error));
+  };
+};
+
+export const getCurriculumUnitById = (id) => {
+  return (dispatch) => {
+    return axios.get(`${backend}/curriculumunit/${id}`)
+      .then(res => dispatch({ type: GET_CURRICULUMUNITBYID, payload: res.data }))
       .catch(error => console.log(error));
   };
 };

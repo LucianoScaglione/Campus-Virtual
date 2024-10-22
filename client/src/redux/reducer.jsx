@@ -4,6 +4,7 @@ const initialState = {
   curriculumUnit: [],
   curriculumUnitCopy: [],
   curriculumUnits: [],
+  curriculumUnitById: [],
   detailCurriculumUnit: {},
   users: [],
   user: [],
@@ -18,6 +19,12 @@ const reducer = (state = initialState, { type, payload }) => {
         ...state,
         curriculumUnit: payload,
         curriculumUnitCopy: payload
+      };
+    };
+    case GET_CURRICULUMUNITBYID: {
+      return {
+        ...state,
+        curriculumUnitById: payload
       };
     };
     case DETAIL_CURRICULUMUNIT: {
