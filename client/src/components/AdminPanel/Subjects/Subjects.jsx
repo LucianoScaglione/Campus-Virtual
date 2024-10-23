@@ -222,7 +222,7 @@ const Subjects = () => {
                       <PersonRemoveIcon sx={{ cursor: 'pointer', fontSize: 20 }} onClick={() => handleClickUsersRemove(currUnit.id)}/>
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      <EditIcon sx={{ cursor: 'pointer', fontSize: 20, marginRight: 1 }} title='Edit' onClick={() => handleClick(currUnit)} />
+                      <EditIcon sx={{ cursor: 'pointer', fontSize: 20, marginRight: 1 }} title='Edit' onClick={() => handleClick(currUnit.id)} />
                       <DeleteIcon sx={{ cursor: 'pointer', fontSize: 20 }} title='Delete' onClick={() => dropCurrUnit(currUnit.id)} />
                     </StyledTableCell>
                   </StyledTableRow>

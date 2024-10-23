@@ -1,8 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import { addUsersToCurriculumUnit } from '../../../redux/actions';
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { Avatar } from '@mui/material';
@@ -37,6 +36,7 @@ export default function ModalAddUser({ IsOpen, SetIsOpen, Title, Users, CurrentU
   }
 
   const handleAddToDb = () => {
+    SetIsOpen(false)
     dispatch(addUsersToCurriculumUnit(CurrentUnitCurr[0].id, addedUsers));
   }
 

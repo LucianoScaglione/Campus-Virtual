@@ -8,9 +8,7 @@ import Divider from '@mui/material/Divider'
 import ListItem from '@mui/material/ListItem'
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import InboxIcon from '@mui/icons-material/MoveToInbox'
 import MenuIcon from '@mui/icons-material/Menu'
 import FolderIcon from '@mui/icons-material/Folder';
 import Avatar from '@mui/material/Avatar';
@@ -52,22 +50,6 @@ export default function Sidebar() {
 
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
-      <List>
-
-        {/* EN ESTE APARTADO IRAN LAS OPCIONES QUE NO REQUIEREN MAP, ES DECIR AQUELLAS QUE NO REQUIERAN ALGUN TIPO DE ARRAY NI NADA POR EL ESTILO*/}
-        <Link to={`archivados`}> <ListItem key={'Archivados'} disablePadding>
-          <ListItemButton>
-            <ListItemAvatar>
-              <Avatar>
-                <InboxIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={'Archivados'} />
-          </ListItemButton>
-        </ListItem> </Link>
-
-
-      </List>
 
       <Divider />
 
