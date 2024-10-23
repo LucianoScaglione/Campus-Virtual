@@ -45,4 +45,4 @@ Año: 2024
 
 ### License & Copyright
 
-© Terciario Urquiza "Become a Software Professional 2022"
+© Escuela Superior De Comercio N° 49 "Justo Jose De Urquiza"
