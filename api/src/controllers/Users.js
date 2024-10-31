@@ -130,7 +130,7 @@ const updateUser = async (req, res, next) => {
       phone: phone ? phone : findUser.phone,
       ranks: ranks ? ranks : findUser.ranks,
       password: password ? password : findUser.password,
-      userActive: userActive !== undefined ? userActive : findUser.userActive
+      userActive: userActive ? userActive : findUser.userActive
     });
 
     res.status(200).json({ msg: 'User updated succesfully!', user: updateUser });

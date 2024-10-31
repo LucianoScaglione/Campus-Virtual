@@ -62,3 +62,16 @@
     margin-top: 10px;
   }
 }
+
+.ModalUserContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 5%;
+  gap: 5vh;
+  max-height: 65vh;
+  overflow-y: scroll;
+}
+
+.SelectOptions {
+  height: 50vh;
+}

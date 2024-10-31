@@ -69,6 +69,13 @@
   margin: 5%;
 }
 
+.ModalSubjectContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 5%;
+  gap: 5vh;
+}
+
 .UsersListContainer {
   width: 50%;
   max-height: 60vh;
