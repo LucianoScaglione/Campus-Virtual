@@ -48,23 +48,34 @@ const createPublication = async (req, res, next) => {
 
 const updatePublication = async (req, res, next) => {
     try {
-    const { id } = req.params;
-    const { title, description } = req.body;
-    const publication = await Publications.findByPk(id);
+        const { id } = req.params;
+        const { title, description, CurriculumUnitId } = req.body;
+        const publication = await Publications.findByPk(id);
 
-    if (!publication) {
-        return res.status(404).send('There is no publication with that ID');
-    }
-    await publication.update({
-        title: title || publication.title,
-        description: description || publication.description
-    });
+        if (!publication) {
+            return res.status(404).send('No existe una publicación con ese ID');
+        }
 
-    res.status(200).json({ msg: 'Publication updated succesfully.', publication });
+        if (CurriculumUnitId) {
+            const curriculumUnit = await CurriculumUnits.findByPk(CurriculumUnitId);
+            if (!curriculumUnit) {
+                return res.status(404).send('La unidad curricular especificada no existe.');
+            }
+        }
+
+        await publication.update({
+            title: title || publication.title,
+            description: description || publication.description,
+            CurriculumUnitId: CurriculumUnitId || publication.CurriculumUnitId
+        });
+
+        res.status(200).json({ msg: 'Publicación actualizada con éxito.', publication });
     } catch (error) {
-    next(error);
+        next(error);
     }
 };
+
+
 
 const deletePublication = async (req, res, next) => {
     try {
