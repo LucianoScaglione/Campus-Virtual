@@ -27,14 +27,22 @@ const getPublicationById = async (req, res, next) => {
 
 const createPublication = async (req, res, next) => {
     try {
-    const { title, description } = req.body;
-    if (!title || !description) {
-        return res.status(400).send('Title and Description fields must be completed.');
-    }
-    const newPublication = await Publications.create({ title, description });
-    res.status(201).json(newPublication);
+        const { title, description, CurriculumUnitId, UserId } = req.body;
+        if (!title || !description || !CurriculumUnitId || !UserId) {
+            return res.status(400).send('Los campos título, descripción, unidad curricular y usuario son obligatorios.');
+        }
+        const curriculumUnit = await CurriculumUnits.findByPk(CurriculumUnitId);
+        if (!curriculumUnit) {
+            return res.status(404).send('La unidad curricular especificada no existe.');
+        }
+        const user = await Users.findByPk(UserId);
+        if (!user) {
+            return res.status(404).send('El usuario especificado no existe.');
+        }
+        const newPublication = await Publications.create({ title, description, CurriculumUnitId, UserId });
+        res.status(201).json(newPublication);
     } catch (error) {
-    next(error);
+        next(error);
     }
 };
 
