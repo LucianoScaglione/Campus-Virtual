@@ -5,18 +5,6 @@ import ModalCreatePublication from './ModalCreatePublication';
 import Button from '@mui/material/Button';
 import '../DetailSubjects.scss';
 
-// const SubjectNews = () => {
-//     const dispatch = useDispatch();
-//     const publications = useSelector(state => state.publications);
-
-//     useEffect(() => {
-//         dispatch(getPublications());
-//     }, [dispatch]);
-
-//     const handleDelete = (id) => {
-//         dispatch(deletePublication(id));
-//     };
-
 const SubjectNews = () => {
     const dispatch = useDispatch();
     const publications = useSelector(state => state.publications);
@@ -40,11 +28,11 @@ const SubjectNews = () => {
         };
     return (
         <div className="CurrUnitContent">
-            <div className='CurrUnitViewerHeader'>
+            <div className='CurrUnitViewerHeader HeaderEdits'>
                 <h2><b>NOVEDADES</b></h2>
-                <Button variant="contained" onClick={() => setIsModalOpen(true)}>
+                <button onClick={() => setIsModalOpen(true)} className="create-button">
                     Nueva Publicación
-                </Button>
+                </button>
             </div>
             <div className="publications-list">
                 {publications.map(pub => (
@@ -53,6 +41,7 @@ const SubjectNews = () => {
                         <p className="publication-autor">
                             {pub.User?.name} {pub.User?.lastName}
                         </p>
+                        <label className='publication-autor'>{pub.createdAt.split('T')[0]}</label>
                         </div>
                         <p>{pub.description}</p>
                         <button onClick={() => handleDelete(pub.id)} className="delete-button">
