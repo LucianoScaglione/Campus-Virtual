@@ -29,7 +29,7 @@ const createPublication = async (req, res, next) => {
     try {
         const { title, description, CurriculumUnitId, UserId } = req.body;
         if (!title || !description || !CurriculumUnitId || !UserId) {
-            return res.status(400).send('Los campos título, descripción, unidad curricular y usuario son obligatorios.');
+            return res.status(400).send('Se debe ingresar un Título y una Descripción.');
         }
         const curriculumUnit = await CurriculumUnit.findByPk(CurriculumUnitId);
         if (!curriculumUnit) {
