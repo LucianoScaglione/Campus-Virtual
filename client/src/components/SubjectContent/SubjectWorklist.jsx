@@ -6,7 +6,7 @@ const SubjectWorklist = () => {
 
     return (
         <div className="CurrUnitContent">
-            <div className='CurrUnitViewerHeader'><h2><b>TRABAJOS</b></h2></div>
+            <div className='CurrUnitViewerHeader HeaderEdits'><h2><b>TRABAJOS</b></h2></div>
         </div>
     );
 };
