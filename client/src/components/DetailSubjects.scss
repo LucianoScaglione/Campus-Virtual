@@ -39,11 +39,37 @@ $temp-background: #00000036 ;
 
 .CurrUnitContent{
     display: flex;
+    flex-direction: column;
+    margin: 5;
     width: 96%;
     border-radius: 12px;
     background-color: #DADADA;
     margin-bottom: 2%;
     min-height: 35vh;
+}
+
+.CurrUnitInfoContent{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1%;
+    padding: 2%;
+}
+
+.CurrUnitUserCard {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 15%;
+    height: fit-content;
+    background-color: #ffffff88;
+    border-radius: 11px;
+    -webkit-box-shadow: 0px 9px 24px -14px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 9px 24px -14px rgba(0,0,0,0.75);
+    box-shadow: 0px 9px 24px -14px rgba(0,0,0,0.75);
+    color: #313638;
 }
 
 .SubjectContentHeader {
@@ -62,6 +88,88 @@ $temp-background: #00000036 ;
     justify-content: center;
     align-items: end;
 }
+
+.HeaderEdits{
+    width: 98.5%;
+    border-radius: 11px 11px 0 0;
+}
+
+
+.card {
+    width: 300px;
+    height: 100px;
+    border-radius: 11px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    background-color: white;
+    overflow: hidden;
+    -webkit-box-shadow: 0px 9px 24px -14px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 9px 24px -14px rgba(0,0,0,0.75);
+    box-shadow: 0px 9px 24px -14px rgba(0,0,0,0.75);
+}
+
+.avatar {
+    width: 70px;
+    height: 70px;
+    background-color: #bdbdbd;
+    border-radius: 50%;
+    margin-left: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.avatar::before {
+    content: '';
+    width: 50px;
+    height: 50px;
+    background-color: #757575;
+    border-radius: 50%;
+}
+
+.avatar::after {
+    content: '';
+    position: absolute;
+    width: 70px;
+    height: 35px;
+    background-color: #757575;
+    border-radius: 50px 50px 0 0;
+    top: 55px;
+}
+
+.card-content {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #313638;
+}
+
+.vertical-line {
+    width: 1px;
+    height: 80%;
+    background-color: #000;
+    margin: 0 15px;
+}
+
+.student-label {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #424242;
+}
+
+.name {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
 
 
 
