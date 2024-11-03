@@ -340,9 +340,9 @@ export const searchUsers = (name) => {
 };
 
 // Publications
-export const getPublications = () => {
+export const getPublications = (CurriculumUnitId) => {
   return (dispatch) => {
-    return axios.get(`${backend}/publications`)
+    return axios.get(`${backend}/publications?CurriculumUnitId=${CurriculumUnitId}`)
       .then(res => dispatch({ type: GET_PUBLICATIONS, payload: res.data }))
       .catch(error => console.log(error));
   };
