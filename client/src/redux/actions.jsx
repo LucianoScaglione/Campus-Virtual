@@ -358,7 +358,7 @@ export const getPublicationById = (id) => {
 
 export const createPublication = (publicationData) => {
   return (dispatch) => {
-    return axios.post(`${backend}/publications`, publicationData)
+    return axios.post(`${backend}/publications/create`, publicationData)
       .then(res => {
         dispatch({ type: CREATE_PUBLICATION, payload: res.data });
         Swal.fire({
@@ -403,7 +403,7 @@ export const deletePublication = (id) => {
         dispatch({ type: DELETE_PUBLICATION, payload: id });
         Swal.fire({
           icon: "success",
-          title: `${res.data.msg}`,
+          title: `${res.data}`,
           showConfirmButton: false,
           timer: 1200
         });
