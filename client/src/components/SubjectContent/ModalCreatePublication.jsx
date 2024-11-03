@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createPublication } from '../../redux/actions'; // Asegúrate de que esta acción esté definida en tu archivo de acciones
+import { createPublication, informationUser } from '../../redux/actions'; // Asegúrate de que esta acción esté definida en tu archivo de acciones
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-//import './Subjects.scss'; // Asumiendo que quieres usar los mismos estilos
 
 const style = {
 position: 'absolute',
@@ -27,7 +26,7 @@ export default function ModalCreatePublication({ IsOpen, SetIsOpen, onCreatePubl
     title: '',
     description: '',
     });
-
+    const userData = informationUser().user;
     const handleClose = () => SetIsOpen(false);
 
     const handleChange = (e) => {
@@ -43,6 +42,7 @@ export default function ModalCreatePublication({ IsOpen, SetIsOpen, onCreatePubl
         onCreatePublication({
         ...formData,
         CurriculumUnitId: currentUnitId,
+        UserId: userData.id,
         });
         handleClose();
         setFormData({ title: '', description: '' });
@@ -71,6 +71,16 @@ export default function ModalCreatePublication({ IsOpen, SetIsOpen, onCreatePubl
             value={formData.title}
             onChange={handleChange}
             required
+            sx={{
+              '& .MuiInputLabel-root': {
+                whiteSpace: 'nowrap',
+                overflow: 'visible',
+                textOverflow: 'clip'
+              },
+              '& .MuiFormLabel-asterisk': {
+                display: 'none'
+              }
+            }}
             />
             <TextField
             fullWidth
@@ -82,6 +92,16 @@ export default function ModalCreatePublication({ IsOpen, SetIsOpen, onCreatePubl
             value={formData.description}
             onChange={handleChange}
             required
+            sx={{
+              '& .MuiInputLabel-root': {
+                whiteSpace: 'nowrap',
+                overflow: 'visible',
+                textOverflow: 'clip'
+              },
+              '& .MuiFormLabel-asterisk': {
+                display: 'none'
+              }
+            }}
             />
             <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
               <Button onClick={handleClose} sx={{ mr: 1 }}>
