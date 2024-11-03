@@ -6,6 +6,7 @@ const cors = require('cors');
 
 const UsersRouters = require('./routes/Users.js');
 const CurriculumUnitRouters = require('./routes/CurriculumUnit.js');
+const PublicationsRouters = require('./routes/Publications.js');
 
 const corsOptions = {
   origin: 'http://localhost:5173',
@@ -40,6 +41,7 @@ server.use((err, req, res, next) => {
 
 server.use('/users', UsersRouters);
 server.use('/curriculumunit', CurriculumUnitRouters);
+server.use('/publications', PublicationsRouters)
 server.use(cors(corsOptions));
 server.use(express.json());
 
