@@ -1,20 +1,18 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import style from './AdminPanel.module.scss';
-import Users from './Users';
+import Users from './Users/Users';
 import Subjects from './Subjects/Subjects';
 import SchoolIcon from '@mui/icons-material/School'; 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'; 
 import { informationUser } from '../../redux/actions';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 const AdminPanel = () => {
   const [value, setValue] = useState('users');
   const adminName = informationUser();
   return (
     <div className={style.globalContainer}>
-      <Link className={style.linkUrl} to='/'>
-        <p className={style.back}>{'< Back'}</p>
-      </Link>
       <div className={style.container}>
         <header className={style.header}>
           <div className={style.leftSection}>
@@ -27,6 +25,9 @@ const AdminPanel = () => {
           <div className={style.rightSection}>
             <AccountCircleIcon className={style.userIcon} />
             <p>{adminName.user.name} {adminName.user.lastName}</p>
+            <Link to='/' className='test' style={{display: "flex", marginLeft: "5px"}}>
+              <ExitToAppIcon className={style.back}/>
+            </Link>
           </div>
         </header>
         <aside className={style.aside}>

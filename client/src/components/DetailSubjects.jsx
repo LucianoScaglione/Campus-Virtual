@@ -2,6 +2,7 @@ import { useEffect, useState, } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useParams } from "react-router";
 import { detailCurriculumUnit, emptyState } from "../redux/actions";
+import { getCurriculumUnitById } from '../redux/actions';
 
 import './DetailSubjects.scss'
 import SubjectContentHeader from "./SubjectContent/SubjectContentHeader";
@@ -19,6 +20,13 @@ const DetailSubjects = () => {
     };
   }, [dispatch, id])
 
+
+  const getTeacherName = (dni, users) => {
+    if (!users || !Array.isArray(users)) return 'Lista de profesores no disponible';
+    const teacher = users.find(user => user.dni === dni);
+    return teacher ? teacher.name+" "+teacher.lastName : dni;
+  };
+
   const currentRoute = "/curriculumUnit/"+id
 
   return (
@@ -29,27 +37,11 @@ const DetailSubjects = () => {
 
       <div className='CurrUnitHeader'>
         <h1>{curriculumUnit.name}</h1>
-        <h2>Profesor asignado: {curriculumUnit.assignedTeacher}</h2>
+        <h2>Profesor asignado: {getTeacherName(curriculumUnit.assignedTeacher, curriculumUnit.Users)}</h2>
       </div>
       
 
       <Outlet/>
-
-
-      {/* <h1>{curriculumUnit.name}</h1>
-      <h3>{curriculumUnit.assignedTeacher}</h3>
-      <p>{curriculumUnit.description}</p>
-      <p>Personas:</p>
-      <p>Compañeros de clase</p>
-      {curriculumUnit.Users && curriculumUnit.Users.length > 0 ? (
-        <ul>
-          {curriculumUnit.Users.map(u => (
-            <li key={u.id}>{u.name} {u.lastName}</li>
-          ))}
-        </ul>
-      ) : (
-        <p>There are no students taking this subject.</p>
-      )} */}
 
 
     </div>

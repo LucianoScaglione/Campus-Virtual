@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import './Subjects.scss';
-import ModalSubject from './ModalSubject';
+import ModalSubject from './ModalSubject'; //borrar dsp
+import ModalSubjectNew from './ModalSubjectNew';
+import ModalSubjectEdit from './ModalSubjectEdit';
 import ModalAddUser from './ModalAddUser';
 import ModalRemoveUser from './ModalRemoveUser';
-
+import ModalListUsers from './ModalListUsers';
 
 import { getUsers, getCurriculumUnit, detailCurriculumUnit, createCurriculumUnit, deleteCurriculumUnit, updateCurriculumUnit, searchUnitCurr} from '../../../redux/actions';
 import spinner from '../../../images/svg/spinner.svg';
@@ -27,7 +29,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import PeopleIcon from '@mui/icons-material/People';
-import ModalListUsers from './ModalListUsers';
+import { DataGrid} from '@mui/x-data-grid';
+import { GridToolbarContainer } from '@mui/x-data-grid';
 
 const Subjects = () => {
   const dispatch = useDispatch();
@@ -36,11 +39,52 @@ const Subjects = () => {
   const [search, setSearch] = useState('')
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [isOpenCreate, setIsOpenCreate] = useState(false);
+
   const [isOpenAddUser, setIsOpenAddUser] = useState(false); 
   const [isOpenRemoveUser, setIsOpenRemoveUser] = useState(false); 
   const [isOpenListUsers, setIsOpenListUsers] = useState(false); 
   const [currentUnitCurrId, setCurrentUnitCurrId] = useState(-1);
 
+  const columns = [
+    { field: 'id', headerName: 'ID', flex: 0.5, minWidth: 70},
+    { field: 'name', headerName: 'Name', flex: 1, minWidth: 70 },
+    { field: 'assignedTeacher', headerName: 'Assigned Teacher', flex: 1, minWidth: 160 },
+    { field: 'description', headerName: 'Description' , flex: 2, minWidth: 170},
+    { field: 'createdAt', headerName: 'Created', flex: 1, minWidth: 130 },
+    { field: 'updatedAt', headerName: 'Updated' , flex: 1, minWidth: 130},
+    { field: 'users', sortable: false, headerName: 'Users', flex: 1, minWidth: 100 ,renderCell: (params) => (
+      <StyledTableCell align="center">
+        <PeopleIcon sx={{ cursor: 'pointer', fontSize: 20  }} onClick={() => handleClickListUsers(params.row.id)}/>
+        <PersonAddIcon sx={{ cursor: 'pointer', fontSize: 20 }} onClick={() => handleClickUsersAdd(params.row.id)}/>
+        <PersonRemoveIcon sx={{ cursor: 'pointer', fontSize: 20 }} onClick={() => handleClickUsersRemove(params.row.id)}/>
+      </StyledTableCell>
+    )},
+    { field: 'actions', sortable: false, headerName: 'Actions' , flex: 1, minWidth: 80,renderCell: (params) => (
+      <StyledTableCell align="center">
+        <EditIcon sx={{ cursor: 'pointer', fontSize: 20, marginRight: 1 }} title='Edit' onClick={() => handleClickEditSubject(params.row.id)} />
+        <DeleteIcon sx={{ cursor: 'pointer', fontSize: 20 }} title='Delete' onClick={() => dropCurrUnit(params.row.id)} />
+      </StyledTableCell>
+    )}
+  ];
+
+  const paginationModel = { page: 0, pageSize: 10 };
+
+  function CustomToolbar() {
+    return (
+      <GridToolbarContainer sx={{ justifyContent: 'space-between', padding: '8px' }}>
+        <TextField
+          variant="outlined"
+          placeholder="SEARCH SUBJECT"
+          size="small"
+          sx={{ maxWidth: '200px' , display: "transparent"}}
+        />
+        <div style={{display: "flex",gap: "15px"}}>
+          <Button variant="text" onClick={() => dispatch(getCurriculumUnit())}>Show All Subjects</Button>
+          <Button variant="contained" onClick={() => setIsOpenCreate(true)}>Create Subject</Button>
+        </div>
+      </GridToolbarContainer>
+    );
+  }
 
   const clearInput = {
     name: "",
@@ -51,47 +95,17 @@ const Subjects = () => {
     Users: []
   };
 
-  const [input, setInput] = useState(clearInput);
-  
-
   const currUnits = useSelector(state => state.curriculumUnit);
   useEffect(() => {
     dispatch(getCurriculumUnit()).then(setLoader(false));
   }, [dispatch]);
 
-  const currUnit = useSelector(state => state.detailCurriculumUnit);
-  useEffect(() => {
-    currUnit && setInput({
-      name: currUnit.name,
-      description: currUnit.description,
-      assignedTeacher: currUnit.assignedTeacher,
-      createdAt: currUnit.createdAt,
-      updatedAt: currUnit.updatedAt,
-      Users: []
-    });
-  }, [currUnit]);
 
   const users = useSelector(state => state.users);
   useEffect(() => {
     dispatch(getUsers()).then(setLoader(false));
   }, [dispatch]);
-
-
-  const handleClick = (id) => {
-    console.log("done")
-    setIsOpenEdit(true);
-    dispatch(detailCurriculumUnit(id));
-  };
-  const handleChange = (e) => {
-    setInput({ ...input, [e.target.name]: e.target.value });
-  };
-  const handleSubmitEdit = () => {
-    dispatch(updateCurriculumUnit(currUnit.id, input));
-  };
-  const handleSubmitCreate = async () => {
-    dispatch(createCurriculumUnit(input));
-    setInput(clearInput)
-  };
+  
   const dropCurrUnit = (id) => {
     swal({
       title: "Are you sure you want to delete this subject?",
@@ -107,6 +121,11 @@ const Subjects = () => {
           swal("Deletion has been cancelled");
         };
       });
+  };
+
+  const handleClickEditSubject = (currentUnitCurrId) => {
+    setIsOpenEdit(true);
+    setCurrentUnitCurrId(currentUnitCurrId);
   };
 
   const handleClickUsersAdd = (currentUnitCurrId) => {
@@ -163,99 +182,22 @@ const Subjects = () => {
   return (
     <div>
 
-      <div className='upperContainer'>
-        <Button variant="text" onClick={() => dispatch(getCurriculumUnit())}>All Subjects</Button>
-        <Button variant="contained" onClick={() => setIsOpenCreate(true)}>Create Subject</Button>
-        <div className='searchContainer'>
-          <form>
-            <TextField
-              id="standard-search"
-              label="Search Subject"
-              type="search"
-              variant="standard"
-              fullWidth
-              InputProps={{ style: { color: '#ffffff' } }}
-              InputLabelProps={{ style: { color: '#ffffff' } }}
-              onChange={handleChangeSearch}
-            />
-            <svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none" /><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" /></svg>
-          </form>
-        </div>
-      </div>
-
-      <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 700 }} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell>ID</StyledTableCell>
-                <StyledTableCell align="center">NAME</StyledTableCell>
-                <StyledTableCell align="center">DESCRIPTION</StyledTableCell>
-                <StyledTableCell align="center">ASSIGNED TEACHER</StyledTableCell>
-                <StyledTableCell align="center">CREATED</StyledTableCell>
-                <StyledTableCell align="center">UPDATED</StyledTableCell>
-                <StyledTableCell align="center">USERS</StyledTableCell>
-                <StyledTableCell align="center">ACTIONS</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {!currUnits.length ? (
-                <StyledTableRow>
-                  <StyledTableCell colSpan={10} align="center">
-                    <div className='noUsersContainer'>
-                      <h2>No Registered Subjects</h2>
-                      <p>Please add a user to get started.</p>
-                    </div>
-                  </StyledTableCell>
-                </StyledTableRow>
-              ) : (
-                currUnits.map((currUnit) => (
-                  <StyledTableRow key={currUnit.id}>
-                    <StyledTableCell align="center">{currUnit.id}</StyledTableCell>
-                    <StyledTableCell align="center">{currUnit.name}</StyledTableCell>
-                    <StyledTableCell align="center">{currUnit.description}</StyledTableCell>
-                    <StyledTableCell align="center">{currUnit.assignedTeacher}</StyledTableCell>
-                    <StyledTableCell align="center">{currUnit.createdAt}</StyledTableCell>
-                    <StyledTableCell align="center">{currUnit.updatedAt}</StyledTableCell>
-                    <StyledTableCell align="center">
-                      <PeopleIcon sx={{ cursor: 'pointer', fontSize: 20  }} onClick={() => handleClickListUsers(currUnit.id)}/>
-                      <PersonAddIcon sx={{ cursor: 'pointer', fontSize: 20 }} onClick={() => handleClickUsersAdd(currUnit.id)}/>
-                      <PersonRemoveIcon sx={{ cursor: 'pointer', fontSize: 20 }} onClick={() => handleClickUsersRemove(currUnit.id)}/>
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      <EditIcon sx={{ cursor: 'pointer', fontSize: 20, marginRight: 1 }} title='Edit' onClick={() => handleClick(currUnit.id)} />
-                      <DeleteIcon sx={{ cursor: 'pointer', fontSize: 20 }} title='Delete' onClick={() => dropCurrUnit(currUnit.id)} />
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        
-        <ModalSubject isOpen={isOpenEdit} setIsOpen={setIsOpenEdit} titleModalUser="Subjects" dispatch={handleSubmitEdit}>
-          <h2>Edit Subject</h2>
-          <form onChange={handleChange}>
-            <label>Name</label>
-            <input type='text' name='name' defaultValue={input.lastName} placeholder='Enter a name' />
-            <label>Description</label>
-            <input type='text' name='description' placeholder='Enter a description' />
-            <label>Assigned Teacher</label>
-            <input type='text' name='assignedTeacher' placeholder='Enter the assigned teacher' />
-          </form>
-        </ModalSubject>
-
-        <ModalSubject isOpen={isOpenCreate} setIsOpen={setIsOpenCreate} titleModalUser="Subject" dispatch={handleSubmitCreate}>
-          <h2>Create Subject</h2>
-          <form onChange={handleChange}>
-            <label>Name</label>
-            <input type='text' name='name' placeholder='Enter a name' />
-            <label>Description</label>
-            <input type='text' name='description' placeholder='Enter a description' />
-            <label>Assigned Teacher</label>
-            <input type='text' name='assignedTeacher' placeholder='Enter the assigned teacher' />
-          </form>
-        </ModalSubject>
-
+        <Paper sx={{ height: '87.5vh', width: '100%' }}>
+          <DataGrid
+            rows={currUnits}
+            columns={columns}
+            initialState={{ pagination: { paginationModel } }}
+            pageSizeOptions={[5, 10]}
+            disableRowSelectionOnClick
+            slots={{
+              toolbar: CustomToolbar,
+            }}
+            sx={{ border: 0 }}
+          />
+        </Paper>
+      
+        <ModalSubjectNew IsOpen={isOpenCreate} SetIsOpen={setIsOpenCreate} Title="Create Subject"/>
+        <ModalSubjectEdit IsOpen={isOpenEdit} SetIsOpen={setIsOpenEdit} Title="Edit Subject" CurrentUnitCurr={currUnits.filter((cu) => cu.id == currentUnitCurrId)}/>
         <ModalAddUser IsOpen={isOpenAddUser} SetIsOpen={setIsOpenAddUser} Title="Add users" CurrentUnitCurr={currUnits.filter((cu) => cu.id == currentUnitCurrId)} Users={users}/>
         <ModalRemoveUser IsOpen={isOpenRemoveUser} SetIsOpen={setIsOpenRemoveUser} Title="Remove users" CurrentUnitCurr={currUnits.filter((cu) => cu.id == currentUnitCurrId)} Users={users}/>
         <ModalListUsers IsOpen={isOpenListUsers} SetIsOpen={setIsOpenListUsers} Title="User list" CurrentUnitCurr={currUnits.filter((cu) => cu.id == currentUnitCurrId)} Users={users}/>
