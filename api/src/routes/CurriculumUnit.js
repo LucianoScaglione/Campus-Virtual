@@ -4,6 +4,7 @@ const CurriculumUnitControllers = require('../controllers/CurriculumUnit');
 
 router.get('/', CurriculumUnitControllers.getCurriculumUnit);
 router.get('/:id', CurriculumUnitControllers.getCurriculumUnitById);
+router.get('/invite/:inviteCode', CurriculumUnitControllers.getCurriculumUnitByInviteCode);
 router.post('/', CurriculumUnitControllers.createCurriculumUnit);
 router.post('/:id', CurriculumUnitControllers.addUsersToCurriculumUnit);
 router.put('/:id', CurriculumUnitControllers.updateCurriculumUnit);

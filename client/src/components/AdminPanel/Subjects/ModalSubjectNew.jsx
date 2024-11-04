@@ -35,6 +35,8 @@ export default function ModalSubjectNew({ IsOpen, SetIsOpen, Title}) {
     name: "",
     description: "",
     assignedTeacher: "",
+    inviteCode: "",
+    active: true,
     createdAt: "",
     updatedAt: "",
     Users: []
