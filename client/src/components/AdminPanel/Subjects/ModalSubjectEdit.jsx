@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { Avatar } from '@mui/material';
 import { useDispatch } from 'react-redux';
-
+import NativeSelect from '@mui/material/NativeSelect';
 import './Subjects.scss';
 
 const style = {
@@ -66,6 +66,17 @@ export default function ModalSubjectEdit({ IsOpen, SetIsOpen, Title, CurrentUnit
                 <TextField id="standard-basic" label="Name" name='name' variant="standard" defaultValue={CurrentUnitCurr[0].name}/>
                 <TextField id="standard-basic" label="Description" name='description' variant="standard" defaultValue={CurrentUnitCurr[0].description}/>
                 <TextField id="standard-basic" label="Assigned Teacher" name='assignedTeacher' variant="standard" defaultValue={CurrentUnitCurr[0].assignedTeacher}/>
+                <TextField id="standard-basic" label="Invite Code" name='inviteCode' variant="standard" defaultValue={CurrentUnitCurr[0].inviteCode}/>
+                <NativeSelect
+                  defaultValue={CurrentUnitCurr[0].userActive}
+                  inputProps={{
+                    name: 'active',
+                    id: 'uncontrolled-native',
+                  }}
+                >
+                  <option value={true}>Active</option>
+                  <option value={false}>Inactive</option>
+                </NativeSelect>
             </form>
             <div className='ButtonContainer'>
               <button onClick={handleSubmitEdit}>EDIT</button> 

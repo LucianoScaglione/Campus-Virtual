@@ -10,6 +10,8 @@ import SubjectMembers from './components/SubjectContent/SubjectMembers';
 import SubjectWorklist from './components/SubjectContent/SubjectWorklist';
 import AdminPanel from './components/AdminPanel/AdminPanel';
 import PrivatesRoutesAdmin from './components/PrivatesRoutesAdmin';
+import Subjects from './components/AdminPanel/Subjects/Subjects';
+import Users from './components/AdminPanel/Users/Users';
 
 const App = () => {
 
@@ -40,7 +42,10 @@ const App = () => {
             </Route>
           </Route>
           <Route element={<PrivatesRoutesAdmin />}>
-            <Route path="/admin/panel" element={<AdminPanel />} />
+            <Route element={<AdminPanel />} >
+              <Route path={"/admin/panel/users"} element={<Users />} />
+              <Route path={"/admin/panel/subjects"} element={<Subjects />} />
+            </Route>
           </Route>
         </Route>
       </Routes>

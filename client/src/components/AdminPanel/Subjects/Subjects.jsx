@@ -47,11 +47,13 @@ const Subjects = () => {
 
   const columns = [
     { field: 'id', headerName: 'ID', flex: 0.5, minWidth: 70},
-    { field: 'name', headerName: 'Name', flex: 1, minWidth: 70 },
+    { field: 'name', headerName: 'Name', flex: 1, minWidth: 100 },
     { field: 'assignedTeacher', headerName: 'Assigned Teacher', flex: 1, minWidth: 160 },
     { field: 'description', headerName: 'Description' , flex: 2, minWidth: 170},
-    { field: 'createdAt', headerName: 'Created', flex: 1, minWidth: 130 },
-    { field: 'updatedAt', headerName: 'Updated' , flex: 1, minWidth: 130},
+    { field: 'inviteCode', headerName: 'Invite Code' , flex: 2, minWidth: 100},
+    { field: 'active', headerName: 'Active' , flex: 2, minWidth: 10},
+    { field: 'createdAt', headerName: 'Created', flex: 1, minWidth: 100 },
+    { field: 'updatedAt', headerName: 'Updated' , flex: 1, minWidth: 100},
     { field: 'users', sortable: false, headerName: 'Users', flex: 1, minWidth: 100 ,renderCell: (params) => (
       <StyledTableCell align="center">
         <PeopleIcon sx={{ cursor: 'pointer', fontSize: 20  }} onClick={() => handleClickListUsers(params.row.id)}/>
@@ -72,14 +74,7 @@ const Subjects = () => {
   function CustomToolbar() {
     return (
       <GridToolbarContainer sx={{ justifyContent: 'space-between', padding: '8px' }}>
-        <TextField
-          variant="outlined"
-          placeholder="SEARCH SUBJECT"
-          size="small"
-          sx={{ maxWidth: '200px' , display: "transparent"}}
-        />
         <div style={{display: "flex",gap: "15px"}}>
-          <Button variant="text" onClick={() => dispatch(getCurriculumUnit())}>Show All Subjects</Button>
           <Button variant="contained" onClick={() => setIsOpenCreate(true)}>Create Subject</Button>
         </div>
       </GridToolbarContainer>
@@ -187,7 +182,7 @@ const Subjects = () => {
             rows={currUnits}
             columns={columns}
             initialState={{ pagination: { paginationModel } }}
-            pageSizeOptions={[5, 10]}
+            pageSizeOptions={[5, 10, 15, 20, 25, 30]}
             disableRowSelectionOnClick
             slots={{
               toolbar: CustomToolbar,

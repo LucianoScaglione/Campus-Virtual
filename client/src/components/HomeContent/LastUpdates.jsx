@@ -1,17 +1,15 @@
 import React from 'react'
 import '../Home.scss'
 import { Link } from 'react-router-dom';
-
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurriculumUnit } from '../../redux/actions';
-
 import { informationUser } from '../../redux/actions';
-
-
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import ModalJoinCurrUnit from './ModalJoinCurrUnit'
 
 function LastUpdates() {
-
+  const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   const curriculumUnit = useSelector(state => state.curriculumUnit);
   useEffect(() => {
@@ -19,20 +17,20 @@ function LastUpdates() {
       dispatch(getCurriculumUnit());
   }, [dispatch, curriculumUnit.length])
 
-
   const userData = informationUser().user
 
   function inArray(target, array){
     return array.some(user => user.id === target)
   }
 
-
   return (
     <div className="CurrUnitViewerContent">
 
       <div className='CurrUnitViewerHeader'>
-        <h2><b>Unidades Curriculares</b></h2>
+        <h2><b>Unidades Curriculares</b> <AddCircleIcon onClick={() => setIsOpen(true)} className='AddButton'/></h2>
       </div>
+
+      <ModalJoinCurrUnit IsOpen={isOpen} SetIsOpen={setIsOpen} Title={"Join to Curricular Unit with Invite Code"}/>
 
       {curriculumUnit.map((value, index) => {
         return (

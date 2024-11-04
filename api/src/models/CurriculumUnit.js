@@ -18,6 +18,13 @@ module.exports = (sequelize) => {
     },
     assignedTeacher: {
       type: DataTypes.STRING
+    },
+    inviteCode: {
+      type: DataTypes.STRING
+    },
+    active: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
     }
   }, { timestamps: true });
 };

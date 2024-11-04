@@ -18,6 +18,7 @@ export const GET_USER = "GET_USER";
 export const DELETE_USER = "DELETE_USER";
 export const SEARCH_USERS = "SEARCH_USERS";
 export const GET_CURRICULUMUNITBYID = "GET_CURRICULUMUNITBYID";
+export const GET_CURRICULUMUNITBYINVITECODE = "GET_CURRICULUMUNITBYINVITECODE";
 
 
 
@@ -41,6 +42,17 @@ export const getCurriculumUnitById = (id) => {
   return (dispatch) => {
     return axios.get(`${backend}/curriculumunit/${id}`)
       .then(res => dispatch({ type: GET_CURRICULUMUNITBYID, payload: res.data }))
+      .catch(error => console.log(error));
+  };
+};
+
+export const getCurriculumUnitByInviteCode = (inviteCode) => {
+  return (dispatch) => {
+    return axios.get(`${backend}/curriculumunit/invite/${inviteCode}`)
+      .then(res => {
+        dispatch({ type: GET_CURRICULUMUNITBYINVITECODE, payload: res.data });
+        return res.data;
+      })
       .catch(error => console.log(error));
   };
 };
