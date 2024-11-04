@@ -1,4 +1,7 @@
-import { GET_CURRICULUMUNIT, GET_CURRICULUMUNITBYID, DETAIL_CURRICULUMUNIT, ADD_USERS_TO_CURRICULUM_UNIT, REMOVE_USERS_FROM_CURRICULUM_UNIT, EMPTY_STATE, GET_USERS, GET_USER, DELETE_USER, SEARCH_USERS, DELETE_CURRICULUMUNIT, SEARCH_UNIT_CURR, GET_CURRICULUMUNITBYINVITECODE } from './actions';
+
+
+import { GET_CURRICULUMUNIT, GET_CURRICULUMUNITBYID, DETAIL_CURRICULUMUNIT, ADD_USERS_TO_CURRICULUM_UNIT, REMOVE_USERS_FROM_CURRICULUM_UNIT, EMPTY_STATE, GET_USERS, GET_USER, DELETE_USER, SEARCH_USERS, DELETE_CURRICULUMUNIT, SEARCH_UNIT_CURR, GET_CURRICULUMUNITBYINVITECODE , GET_PUBLICATIONS, GET_PUBLICATION_BY_ID, CREATE_PUBLICATION, UPDATE_PUBLICATION, DELETE_PUBLICATION } from './actions';
+
 
 const initialState = {
   curriculumUnit: [],
@@ -8,6 +11,8 @@ const initialState = {
   detailCurriculumUnit: {},
   users: [],
   user: [],
+  publications: [],
+  currentPublication: null,
   loading: false,
   error: null
 };
@@ -111,6 +116,34 @@ const reducer = (state = initialState, { type, payload }) => {
         users: payload
       };
     };
+
+    case GET_PUBLICATIONS:
+      return {
+        ...state,
+        publications: payload
+      };
+    case GET_PUBLICATION_BY_ID:
+      return {
+        ...state,
+        currentPublication: payload
+      };
+    case CREATE_PUBLICATION:
+      return {
+        ...state,
+        publications: [...state.publications, payload]
+      };
+    case UPDATE_PUBLICATION:
+      return {
+        ...state,
+        publications: state.publications.map(pub =>
+          pub.id === payload.id ? payload : pub
+        )
+      };
+    case DELETE_PUBLICATION:
+      return {
+        ...state,
+        publications: state.publications.filter(pub => pub.id !== payload)
+      };
     default: return state;
   };
 };

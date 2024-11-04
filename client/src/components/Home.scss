@@ -75,6 +75,7 @@ span {
     background-color: #00000036 ;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding-left: 1.5vw;
     overflow: hidden;
     color: $font-defaultcolor;
@@ -129,6 +130,20 @@ span {
     color:black
 }
 
+
+.create-button {
+    background-color: #2f47e6;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.create-button:hover {
+    background-color: #352fe6;
+
 .AddButton:hover{
     cursor: pointer;
+
 }

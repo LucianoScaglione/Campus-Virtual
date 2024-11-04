@@ -170,6 +170,52 @@ $temp-background: #00000036 ;
     text-align: center;
 }
 
+.publications-list {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column-reverse;
+}
 
+.publication-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
 
+.publication-title{
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
 
+.publication-item h3 {
+    margin-top: 0;
+    color: #343a40;
+    gap: 50px;
+}
+
+.publication-autor {
+    margin-left: 10px;
+    margin-right: 1vw;
+    font-size: 0.9em;
+    color: #6c757d;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}

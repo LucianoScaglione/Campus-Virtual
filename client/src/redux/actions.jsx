@@ -20,6 +20,12 @@ export const SEARCH_USERS = "SEARCH_USERS";
 export const GET_CURRICULUMUNITBYID = "GET_CURRICULUMUNITBYID";
 export const GET_CURRICULUMUNITBYINVITECODE = "GET_CURRICULUMUNITBYINVITECODE";
 
+export const GET_PUBLICATIONS = "GET_PUBLICATIONS";
+export const GET_PUBLICATION_BY_ID = "GET_PUBLICATION_BY_ID";
+export const CREATE_PUBLICATION = "CREATE_PUBLICATION";
+export const UPDATE_PUBLICATION = "UPDATE_PUBLICATION";
+export const DELETE_PUBLICATION = "DELETE_PUBLICATION";
+
 
 
 export const emptyState = () => {
@@ -345,3 +351,79 @@ export const searchUsers = (name) => {
   };
 };
 
+// Publications
+export const getPublications = (CurriculumUnitId) => {
+  return (dispatch) => {
+    return axios.get(`${backend}/publications?CurriculumUnitId=${CurriculumUnitId}`)
+      .then(res => dispatch({ type: GET_PUBLICATIONS, payload: res.data }))
+      .catch(error => console.log(error));
+  };
+};
+
+export const getPublicationById = (id) => {
+  return (dispatch) => {
+    return axios.get(`${backend}/publications/${id}`)
+      .then(res => dispatch({ type: GET_PUBLICATION_BY_ID, payload: res.data }))
+      .catch(error => console.log(error));
+  };
+};
+
+export const createPublication = (publicationData) => {
+  return (dispatch) => {
+    return axios.post(`${backend}/publications/create`, publicationData)
+      .then(res => {
+        dispatch({ type: CREATE_PUBLICATION, payload: res.data });
+        Swal.fire({
+          icon: "success",
+          title: "Publicación creada con éxito",
+          showConfirmButton: false,
+          timer: 2000
+        });
+      })
+      .catch(error => Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: `${error.response.data}`,
+      }));
+  };
+};
+
+export const updatePublication = (id, publicationData) => {
+  return (dispatch) => {
+    return axios.put(`${backend}/publications/${id}`, publicationData)
+      .then(res => {
+        dispatch({ type: UPDATE_PUBLICATION, payload: res.data });
+        Swal.fire({
+          icon: "success",
+          title: "Publicación actualizada con éxito",
+          showConfirmButton: false,
+          timer: 2000
+        });
+      })
+      .catch(error => Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: `${error.response.data}`,
+      }));
+  };
+};
+
+export const deletePublication = (id) => {
+  return (dispatch) => {
+    return axios.delete(`${backend}/publications/${id}`)
+      .then(res => {
+        dispatch({ type: DELETE_PUBLICATION, payload: id });
+        Swal.fire({
+          icon: "success",
+          title: `${res.data}`,
+          showConfirmButton: false,
+          timer: 1200
+        });
+      })
+      .catch(error => Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: `${error.response.data}`,
+      }));
+  };
+};

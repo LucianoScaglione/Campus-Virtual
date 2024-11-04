@@ -1,4 +1,4 @@
-const { Publications } = require('../db');
+const { CurriculumUnit, Users, Publications } = require('../db');
 
 const getPublications = async (req, res, next) => {
     try {
@@ -27,36 +27,55 @@ const getPublicationById = async (req, res, next) => {
 
 const createPublication = async (req, res, next) => {
     try {
-    const { title, description } = req.body;
-    if (!title || !description) {
-        return res.status(400).send('Title and Description fields must be completed.');
-    }
-    const newPublication = await Publications.create({ title, description });
-    res.status(201).json(newPublication);
+        const { title, description, CurriculumUnitId, UserId } = req.body;
+        if (!title || !description || !CurriculumUnitId || !UserId) {
+            return res.status(400).send('Se debe ingresar un Título y una Descripción.');
+        }
+        const curriculumUnit = await CurriculumUnit.findByPk(CurriculumUnitId);
+        if (!curriculumUnit) {
+            return res.status(404).send('La unidad curricular especificada no existe.');
+        }
+        const user = await Users.findByPk(UserId);
+        if (!user) {
+            return res.status(404).send('El usuario especificado no existe.');
+        }
+        const newPublication = await Publications.create({ title, description, CurriculumUnitId, UserId });
+        res.status(201).json(newPublication);
     } catch (error) {
-    next(error);
+        next(error);
     }
 };
 
 const updatePublication = async (req, res, next) => {
     try {
-    const { id } = req.params;
-    const { title, description } = req.body;
-    const publication = await Publications.findByPk(id);
+        const { id } = req.params;
+        const { title, description, CurriculumUnitId } = req.body;
+        const publication = await Publications.findByPk(id);
 
-    if (!publication) {
-        return res.status(404).send('There is no publication with that ID');
-    }
-    await publication.update({
-        title: title || publication.title,
-        description: description || publication.description
-    });
+        if (!publication) {
+            return res.status(404).send('No existe una publicación con ese ID');
+        }
 
-    res.status(200).json({ msg: 'Publication updated succesfully.', publication });
+        if (CurriculumUnitId) {
+            const curriculumUnit = await CurriculumUnit.findByPk(CurriculumUnitId);
+            if (!curriculumUnit) {
+                return res.status(404).send('La unidad curricular especificada no existe.');
+            }
+        }
+
+        await publication.update({
+            title: title || publication.title,
+            description: description || publication.description,
+            CurriculumUnitId: CurriculumUnitId || publication.CurriculumUnitId
+        });
+
+        res.status(200).json({ msg: 'Publicación actualizada con éxito.', publication });
     } catch (error) {
-    next(error);
+        next(error);
     }
 };
+
+
 
 const deletePublication = async (req, res, next) => {
     try {
