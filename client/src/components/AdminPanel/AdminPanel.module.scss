@@ -5,7 +5,7 @@ $gray-color: gray;
 $shadow-color: rgba(0, 0, 0, 0.37);
 $font-family: "Public Sans", sans-serif;
 
-// Estructura principal
+
 .globalContainer {
   background-color: $primary-bg-color;
   display: flex;
@@ -18,7 +18,7 @@ $font-family: "Public Sans", sans-serif;
   overflow-y: hidden;
 }
 
-// Links y elementos de texto
+
 .linkUrl {
   text-decoration: none;
 }
@@ -29,7 +29,7 @@ $font-family: "Public Sans", sans-serif;
   color: $white-color;
 }
 
-// Contenedor principal
+
 .container {
   font-family: $font-family;
   font-size: 1.2rem;
@@ -42,7 +42,7 @@ $font-family: "Public Sans", sans-serif;
     "article";
   min-height: 100%;
 
-  // Header
+
   .header {
     grid-area: header;
     display: flex;
@@ -75,7 +75,7 @@ $font-family: "Public Sans", sans-serif;
     }
   }
 
-  // Barra lateral
+
   .aside {
     grid-area: aside;
     display: flex;
@@ -97,7 +97,7 @@ $font-family: "Public Sans", sans-serif;
     }
   }
 
-  // Contenido principal
+
   .article {
     grid-area: article;
     box-shadow: -1px 1px 7px $shadow-color;
@@ -107,7 +107,6 @@ $font-family: "Public Sans", sans-serif;
   }
 }
 
-// Media queries para diferentes tamaños de pantalla
 @media (min-width: 600px) {
   .container {
     grid-template-areas:
@@ -146,14 +145,14 @@ $font-family: "Public Sans", sans-serif;
 
     .aside {
       display: flex;
-      flex-direction: row; // Cambia la dirección a horizontal para una barra superior
+      flex-direction: row; 
       padding: 10px;
       box-shadow: 0px 1px 7px $shadow-color;
       height: auto;
-      min-height: 50px;    // Altura mínima
-      max-height: 70px;    // Altura máxima
-      width: 100vw;  // Cambia el ancho para que no ocupe toda la pantalla
-      margin: 0 auto;  // Centra el aside
+      min-height: 50px;   
+      max-height: 70px;  
+      width: 100vw;  
+      margin: 0 auto;  
       justify-content: space-around;
 
       .selected, .noSelected {

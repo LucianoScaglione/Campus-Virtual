@@ -13,7 +13,6 @@ import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
-import TextField from '@mui/material/TextField';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { DataGrid} from '@mui/x-data-grid';
@@ -49,14 +48,7 @@ const Users = () => {
   function CustomToolbar() {
     return (
       <GridToolbarContainer sx={{ justifyContent: 'space-between', padding: '8px' }}>
-        <TextField
-          variant="outlined"
-          placeholder="SEARCH USER"
-          size="small"
-          sx={{ maxWidth: '200px' , display: "transparent"}}
-        />
         <div style={{display: "flex",gap: "15px"}}>
-          <Button variant="text" onClick={() => dispatch(getUsers())}>SHOW All users</Button>
           <Button variant="contained" onClick={() => setIsOpenCreate(true)}>ADD user</Button>
         </div>
       </GridToolbarContainer>
@@ -116,7 +108,7 @@ const Users = () => {
             rows={users}
             columns={columns}
             initialState={{ pagination: { paginationModel } }}
-            pageSizeOptions={[5, 10]}
+            pageSizeOptions={[5, 10, 15, 20, 25, 30]}
             disableRowSelectionOnClick
             slots={{
               toolbar: CustomToolbar,

@@ -43,7 +43,7 @@ export default function Usermenu({ firstLetters }) {
       >
         <MenuItem onClick={handleClose} className='MenuOption'><AccountBoxIcon />Perfil</MenuItem>
         <MenuItem onClick={handleClose} className='MenuOption'><ChatIcon />Chat</MenuItem>
-        {userLogin.user.ranks === 'Admin' && <MenuItem onClick={handleClose} className='MenuOption'><AdminPanelSettingsIcon /><Link to='/admin/panel'>Admin panel</Link></MenuItem>}
+        {userLogin.user.ranks === 'Admin' && <MenuItem onClick={handleClose} className='MenuOption'><AdminPanelSettingsIcon /><Link to='/admin/panel/users'>Admin panel</Link></MenuItem>}
         <MenuItem onClick={() => { localStorage.removeItem("user"); window.location.reload(); }} className='MenuOption'><LogoutIcon />Cerrar Sesion</MenuItem>
       </Menu>
     </div>

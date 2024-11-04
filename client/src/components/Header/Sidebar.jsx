@@ -17,22 +17,19 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurriculumUnit } from '../../redux/actions'
 import { Link } from 'react-router-dom';
-
-
 import { informationUser } from '../../redux/actions';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import ModalJoinCurrUnit from '../HomeContent/ModalJoinCurrUnit'
 
 
 
 export default function Sidebar() {
-
-  //controlador del sidebar
+  const [isOpen, setIsOpen] = React.useState(false);
   const [open, setOpen] = React.useState(false)
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
-
-  //llamada a las unidades curriculares
   const dispatch = useDispatch();
   const curriculumUnit = useSelector(state => state.curriculumUnit);
 
@@ -76,8 +73,9 @@ export default function Sidebar() {
             );
           }) : null
         }
-      </List>
 
+      </List>
+      <ModalJoinCurrUnit IsOpen={isOpen} SetIsOpen={setIsOpen} Title={"Join to Curricular Unit with Invite Code"}/>
     </Box>
   )
 

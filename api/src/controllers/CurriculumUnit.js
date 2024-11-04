@@ -25,10 +25,23 @@ const getCurriculumUnitById = async (req, res, next) => {
   };
 };
 
+const getCurriculumUnitByInviteCode = async (req, res, next) => {
+  try {
+    const { inviteCode } = req.params;
+    const findByInviteCode = await CurriculumUnit.findOne({ where: { inviteCode } });
+    if (!findByInviteCode) {
+      return res.status(404).send('There is no curricular unit registered with that Invite Code in the database');
+    };
+    res.status(200).json(findByInviteCode);
+  } catch (error) {
+    next(error);
+  };
+};
+
 const createCurriculumUnit = async (req, res, next) => {
   try {
     // UserId va a ser un arreglo de id de usuarios: [1, 2, 3, 4, 5, 6, 7]
-    const { name, description, assignedTeacher, UserId } = req.body;
+    const { name, description, assignedTeacher, UserId, active, inviteCode } = req.body;
 
     const searchCurriculumUnit = await CurriculumUnit.findOne({ where: { name } });
 
@@ -36,10 +49,17 @@ const createCurriculumUnit = async (req, res, next) => {
       return res.status(400).send('There is already a matter registered with that name');
     };
 
+    let defaultCode = name;
+    defaultCode = defaultCode.replace(/\s/g, '')
+    defaultCode = defaultCode
+    defaultCode = defaultCode[0]+defaultCode[1]+Math.random().toString(36).slice(2)
+
     const newCurriculumUnit = await CurriculumUnit.create({
       name,
       description,
-      assignedTeacher
+      assignedTeacher,
+      inviteCode: defaultCode,
+      active
     });
 
     if (UserId && UserId.length > 0) {
@@ -168,6 +188,7 @@ const deleteCurriculumUnit = async (req, res, next) => {
 module.exports = {
   getCurriculumUnit,
   getCurriculumUnitById,
+  getCurriculumUnitByInviteCode,
   createCurriculumUnit,
   updateCurriculumUnit,
   addUsersToCurriculumUnit,

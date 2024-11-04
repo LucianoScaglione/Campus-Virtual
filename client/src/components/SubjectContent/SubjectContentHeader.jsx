@@ -1,8 +1,3 @@
-import { useEffect, } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
-import { detailCurriculumUnit, emptyState } from "../../redux/actions";
-
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
