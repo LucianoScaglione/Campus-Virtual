@@ -13,7 +13,7 @@ import { informationUser } from '../../redux/actions'
 
 function Header() {
 
-  const userData = informationUser().user
+  const userData = informationUser().user || {}
 
   return (
     <div className="header">

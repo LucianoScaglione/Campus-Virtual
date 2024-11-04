@@ -63,11 +63,10 @@ const createCurriculumUnit = async (req, res, next) => {
     });
 
     if (UserId && UserId.length > 0) {
-      //"A la unidad curricular (newCurriculumUnit) que acabo de crear, agrégale los usuarios con los IDs especificados en el arreglo UserId."
       await newCurriculumUnit.addUsers(UserId);
     };
 
-    res.status(201).json(newCurriculumUnit);
+    res.status(200).send('Curriculum Unit created succesfully!');
 
   } catch (error) {
     next(error);
